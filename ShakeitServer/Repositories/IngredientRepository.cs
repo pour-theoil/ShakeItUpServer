@@ -52,7 +52,7 @@ namespace ShakeitServer.Repositories
                                         t.id as IngredientTypeId t.name as IngredientName
                                         from ingredient i join ingredienttype t on i.IngredientTypeId = t.id
                                         where i.id = @id";
-                    DbUtils.AddParameter(cmd, "@Id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
                     Ingredient ingredient = null;
                     while (reader.Read())
