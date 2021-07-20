@@ -14,6 +14,7 @@ namespace ShakeitServer.Models
         public int SeasonId { get; set; }
         public Season Season { get; set; }
         public int UserProfileId { get; set; }
+        public int IsDeleted { get; set; }
 
     }
 }
