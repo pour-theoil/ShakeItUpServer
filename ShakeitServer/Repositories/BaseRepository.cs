@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace Streamish.Repositories
+namespace ShakeitServer.Repositories
 {
     public abstract class BaseRepository
     {
