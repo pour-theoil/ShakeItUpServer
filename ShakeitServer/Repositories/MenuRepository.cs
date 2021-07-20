@@ -51,7 +51,8 @@ namespace ShakeitServer.Repositories
                     cmd.CommandText = @"select  m.id, m.name, m.datecreated, m.UserProfileId, m.notes, m.seasonId
                                                 s.id as seasonId s.name as seasonName
                                                 from menu m join season s on m.seasonId = s.id
-                                                where i.IsDeleted = 0
+                                                join CocktailMenu cm on cm.MenuId = m.id
+                                                where m.IsDeleted = 0
                                                 and m.id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
@@ -61,7 +62,9 @@ namespace ShakeitServer.Repositories
                         if (menu == null)
                         {
                             menu = NewMenuFromDb(reader);
+                            menu.Cocktails = new List<Cocktail>();
                         }
+
                     }
 
                     reader.Close();

@@ -16,5 +16,6 @@ namespace ShakeitServer.Models
         public int UserProfileId { get; set; }
         public int IsDeleted { get; set; }
 
+        public List<Cocktail> Cocktails { get; set; }
     }
 }
