@@ -1,12 +1,12 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using ShakeitServer.Models;
 using ShakeitServer.Repositories;
+using ShakeitServer.Models;
 
-namespace ShakeitServer.Repositories
+namespace ShakeitServer.Controllers
+
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase

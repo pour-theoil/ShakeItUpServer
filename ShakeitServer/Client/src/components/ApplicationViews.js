@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { EditIngredientForm } from './ingredients/IngredientEditForm'
 import { IngredientList } from './ingredients/IngredientsList'
@@ -9,15 +9,14 @@ import { SingleCocktailEditForm } from './cocktials/CocktailEdit'
 import { MenuEntry } from './menus/MenuForm'
 import { MenuDetails } from './menus/MenuDetails'
 import { CocktailAddForm } from './builder/CocktailForm' 
-import { FirebaseContext } from './auth/FirebaseProvider'
 import { CocktailEditForm } from './menus/CocktailEditForm'
 import { CocktailList } from './cocktials/CocktailList'
 import Login from './auth/Login'
 import Register from './auth/Register'
 
 
-export default function ApplicationViews() {
-    const { isLoggedIn } = useContext(FirebaseContext)
+export default function ApplicationViews({ isLoggedIn }) {
+
     
     return (
         <main>

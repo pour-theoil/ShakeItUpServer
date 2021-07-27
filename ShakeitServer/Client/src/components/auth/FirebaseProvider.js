@@ -1,85 +1,103 @@
-import React, { createContext, useEffect, useState } from 'react'
-import firebase from 'firebase'
-import { Spinner } from 'react-bootstrap';
+import firebase from 'firebase/app'
 import 'firebase/auth'
 
+const _apiUrl = "/api/userprofile";
 
-// Use context can be used to capture a context object, this will be the log in object
-// Must be the exact object
-export const FirebaseContext = createContext()
-
+export const onLoginStatusChange = (onLoginStatusChangeHandler) => {
+    firebase.auth().onAuthStateChanged((user) => {
+        onLoginStatusChangeHandler(!!user);
+    });
+};
 // Data for the log in and log out
-export const FirebaseProvider = (props) => {
-    const userProfile = sessionStorage.getItem('userProfile');
-    const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
-    
-    // spinner based on state... not used yet
-    const [isFirebaseReady, setIsFirebaseReady] = useState(false)
 
-    // based on documentation from firebase
-    const provider = new firebase.auth.GoogleAuthProvider();
 
-    // Set the spinner
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(()=> {
-            setIsFirebaseReady(true)
-        })
-    }, [])
+// spinner based on state... not used yet
 
-    
-    // Log in based on doc
-    const login = (email, password) => {
-        return firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userProfile) => {
-            sessionStorage.setItem('userProfile', JSON.stringify(userProfile.user))
-            setIsLoggedIn(true)
-        })
-    }
-    
-    // call firebase to sign out, set the local storage to false
-    const logout = () => {
-        return firebase.auth().signOut()
-            .then(() => {
-                sessionStorage.clear()
-                setIsLoggedIn(false)
-            })
-    }
 
-    const register = (userProfile, password) => {
-        return firebase.auth().createUserWithEmailAndPassword(userProfile.email, password)
-        .then(savedUserProfile => {
-            sessionStorage.setItem('userProfile', JSON.stringify(savedUserProfile))
-            setIsLoggedIn(true)
-        })
-    }
+// based on documentation from firebase
+// const provider = new firebase.auth.GoogleAuthProvider();
 
-    const signInWithGoogle = () => {
-        return firebase.auth().signInWithPopup(provider)
-        .then(savedUserProfile => {
-            sessionStorage.setItem('userProfile', JSON.stringify(savedUserProfile.user))
-            checkUser(savedUserProfile.user.uid)
-            setIsLoggedIn(true)
-        })
-    }
 
-    const checkUser = (userId) => {
-        console.log("checkUser", userId)
-        fetch(`${firebase.auth()}/users.json/?orderby="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
-        .then(result => result.json())
-        .then(parsedResponse => {
-            let resultArray = Object.keys(parsedResponse)
-            if (resultArray.length > 0) {
-                console.log("its a user!!")
-            } else {
-                console.log("false yo")
+const _doesUserExist = (firebaseUserId) => {
+
+    return getToken().then((token) =>
+        fetch(`${_apiUrl}/DoesUserExist/${firebaseUserId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-        })
-    }
+        }).then(resp => resp.ok));
+};
 
-    return (
-        <FirebaseContext.Provider value={{ isLoggedIn, login, logout, register, signInWithGoogle }}>
-            {isFirebaseReady ? props.children : <Spinner className="app-spinner dark" />}
-        </FirebaseContext.Provider>
-    
-        )
-}   
+const _saveUser = (userProfile) => {
+    return getToken().then((token) =>
+        fetch(_apiUrl, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userProfile)
+        }).then(resp => resp.json()));
+};
+
+const getToken = () => firebase.auth().currentUser.getIdToken();
+// Log in based on doc
+
+export const login = (email, password) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((signInResponse) => _doesUserExist(signInResponse.user.uid))
+
+        .then((doesUserExist) => {
+            if (!doesUserExist) {
+
+                // If we couldn't find the user in our app's database, we should logout of firebase
+                logout();
+
+                throw new Error("Something's wrong. The user exists in firebase, but not in the application database.");
+            }
+        }).catch(err => {
+            console.error(err);
+            throw err;
+        });
+}
+
+// call firebase to sign out, set the local storage to false
+export const logout = () => {
+    firebase.auth().signOut()
+};
+
+
+export const register = (userProfile, password) => {
+    return firebase.auth().createUserWithEmailAndPassword(userProfile.email, password)
+        .then((createResponse) => _saveUser({
+            ...userProfile,
+            firebaseUserId: createResponse.user.uid
+        }));
+}
+
+    // const signInWithGoogle = () => {
+    //     return firebase.auth().signInWithPopup(provider)
+    //         .then(savedUserProfile => {
+    //             sessionStorage.setItem('userProfile', JSON.stringify(savedUserProfile.user))
+    //             checkUser(savedUserProfile.user.uid)
+    //             setIsLoggedIn(true)
+    //         })
+    // }
+
+    // const checkUser = (userId) => {
+    //     console.log("checkUser", userId)
+    //     fetch(`${firebase.auth()}/users.json/?orderby="uid"&equalTo="${firebase.auth().currentUser.uid}"`)
+    //         .then(result => result.json())
+    //         .then(parsedResponse => {
+    //             let resultArray = Object.keys(parsedResponse)
+    //             if (resultArray.length > 0) {
+    //                 console.log("its a user!!")
+    //             } else {
+    //                 console.log("false yo")
+    //             }
+    //         })
+    // }
+
+
+

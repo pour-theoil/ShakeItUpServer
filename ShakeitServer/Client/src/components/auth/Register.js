@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Button, Form, Container } from 'react-bootstrap';
 import { useHistory, Link } from "react-router-dom";
-import { FirebaseContext } from "./FirebaseProvider";
+import {register} from "./FirebaseProvider";
 
 export default function Register() {
   const history = useHistory();
-  const { register } = useContext(FirebaseContext);
+ 
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
