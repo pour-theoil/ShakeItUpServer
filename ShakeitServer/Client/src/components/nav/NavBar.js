@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { NavLink } from 'react-router-dom'
 import './NavBar.css'
 import menuicon from './MenuIcon.svg'
@@ -6,13 +6,12 @@ import cocktailicon from './CocktailsIcon.svg'
 import logouticon from './Logout.svg'
 import ingredients from './Ingredients.svg'
 import shakertin from './Shakertin.svg'
-import { FirebaseContext } from '../auth/FirebaseProvider'
+import { logout } from "../auth/FirebaseProvider"
 
 // import ingredients from './BottleGroup.svg'
 
-export const NavBar = () => {
+export const NavBar = ({isLoggedIn}) => {
    
-    const { logout } = useContext(FirebaseContext)
     
     const handleLogOut = () => {
         logout()

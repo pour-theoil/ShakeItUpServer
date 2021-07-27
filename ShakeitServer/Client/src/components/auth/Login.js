@@ -1,23 +1,21 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css"
 import { Row, Button, Form, Col, Container} from 'react-bootstrap'
-import { FirebaseContext } from './FirebaseProvider' 
 import googleicon from './googleicon.jpg'
+import {login} from "./FirebaseProvider";
 
 
 export default function Login() {
     const [ email, setEmail ] = useState()
     const [ password, setPassword ] = useState()
-    const { login } = useContext(FirebaseContext)
-    const { signInWithGoogle } = useContext(FirebaseContext)
     const history = useHistory()
 
 
-    const loginGoogle = () => {
-        signInWithGoogle()
-            .then(response => history.push("/home"))
-    }
+    // const loginGoogle = () => {
+    //     signInWithGoogle()
+    //         .then(response => history.push("/home"))
+    // }
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -50,9 +48,9 @@ export default function Login() {
                             <Col xs={5}>
                                 <Link to="/register">Register for an account</Link>
                             </Col>
-                            <Col xs={3}>
+                            {/* <Col xs={3}>
                                 <Button className="nobackground"><img src={googleicon} alt="Google Icon" onClick={loginGoogle} width="35" height="35" /></Button>
-                            </Col>
+                            </Col> */}
                         </Row>
     
                 </Form>
