@@ -5,6 +5,7 @@ using ShakeitServer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShakeitServer.Controllers
@@ -14,21 +15,27 @@ namespace ShakeitServer.Controllers
     public class MenuController : ControllerBase
     {
         private IMenuRepository _menuRepository;
+        private IUserProfileRepository _userProfileRepository;
 
-        public MenuController(IMenuRepository menuRepository)
+        public MenuController(  IMenuRepository menuRepository, 
+                                IUserProfileRepository userProfileRepository)
         {
             _menuRepository = menuRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_menuRepository.GetAllMenus());
+            var firebaseUserProfile = GetCurrentUserProfile();
+            return Ok(_menuRepository.GetAllMenus(firebaseUserProfile.Id));
         }
 
         [HttpPost]
         public IActionResult AddMenu(Menu menu)
         {
+            var firebaseUserProfile = GetCurrentUserProfile();
+            menu.UserProfileId = firebaseUserProfile.Id;
             _menuRepository.AddMenu(menu);
             return CreatedAtAction("Get", new { id = menu.Id }, menu);
         }
@@ -43,7 +50,8 @@ namespace ShakeitServer.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var menu = _menuRepository.GetMenuById(id);
+            var firebaseUserProfile = GetCurrentUserProfile();
+            var menu = _menuRepository.GetMenuById(id, firebaseUserProfile.Id);
             if(menu == null)
             {
                 return NotFound();
@@ -61,6 +69,12 @@ namespace ShakeitServer.Controllers
 
             _menuRepository.UpdateMenu(menu);
             return Ok(menu);
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

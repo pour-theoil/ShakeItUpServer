@@ -8,8 +8,8 @@ namespace ShakeitServer.Repositories
 {
     public interface IMenuRepository
     {
-        public List<Menu> GetAllMenus();
-        public Menu GetMenuById(int id);
+        public List<Menu> GetAllMenus(int id);
+        public Menu GetMenuById(int id, int userId);
         public void AddMenu(Menu menu);
         public void UpdateMenu(Menu menu);
         public void DeleteMenu(int menuId);

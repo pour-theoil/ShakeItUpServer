@@ -1,0 +1,73 @@
+.d-inline-block {
+    border-radius: .75em;
+}
+
+  
+.shakeitup {
+    font-size: 3em;
+    height: 100%;
+    margin: .3em  0 .3em 0;
+    text-align: center !important;
+    color: #871A85 !important;
+    font-family: Pacifico !important;
+    -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
+    -moz-animation: neon3 1.5s ease-in-out infinite alternate;
+    animation: neon3 1.5s ease-in-out infinite alternate;
+  }
+  .active {
+      background-color: #FFDD1B;
+      border-top: #FFDD1B 1em solid !important;
+      border-left: #FFDD1B 1.5em solid !important;
+      border-right: #FFDD1B 1.5em solid !important;
+      border-bottom: #FFDD1B 1.6em solid !important;
+      border-radius: .25em ;
+  }
+  
+ .nav-item {
+    width: auto;
+    height: 4em; 
+ }
+ 
+ul li {
+  padding-top: 1.25em;
+}
+
+/* css for the shake it up logo */
+.logo {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: black;
+  box-shadow: 0 5px 10px black;
+  /* border: .2em solid #FFDD1B !important;
+  border-radius: .5em; */
+}
+
+ul img {
+  width: auto;
+  height: 60%;
+ }
+  
+ .bottom {
+     position: fixed !important;
+     bottom: 0 !important;
+     width: 100% !important;
+     background-color: black;
+     box-shadow: 0 0 5px 10px black;
+     border-bottom: #FFDD1B .5em solid !important;
+ }
+.shakeitup:hover {
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+  }
+  
+  @keyframes neon3 {
+    from {
+        text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #871A85, 0 0 35px #871A85, 0 0 40px #871A85, 0 0 50px #871A85, 0 0 75px #871A85;
+      }
+      to {
+        text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #871A85, 0 0 17px #871A85, 0 0 20px #871A85, 0 0 25px #871A85, 0 0 38px #871A85;
+      }
+    }
