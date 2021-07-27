@@ -1,0 +1,16 @@
+.fixed-button {
+    position: fixed !important;
+    bottom: 6em;
+    right: 1em;
+    z-index: 4;
+    box-shadow: 0 0 5px 5px white;
+    
+}
+
+.menu-title {
+    margin-top: 3em;
+}
+
+.menus {
+    border-bottom: 10em solid black;
+}

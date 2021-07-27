@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShakeitServer.Models
 {
@@ -13,5 +14,8 @@ namespace ShakeitServer.Models
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
         public DateTime DateCreated { get; set; }
+        [Required]
+        [StringLength(28, MinimumLength = 28)]
+        public string FirebaseUserId { get; set; }
     }
 }

@@ -1,0 +1,15 @@
+
+.ingredient-card {
+    margin-top: .7em;
+    padding: .5em;
+    border-radius: .5em !important;
+    box-shadow: 1px 2px 5px;
+}
+
+.centeredtext {
+   text-align: center;
+}
+
+.cocktails-card {
+    margin-bottom: 10em;
+}

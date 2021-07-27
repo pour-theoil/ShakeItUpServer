@@ -14,17 +14,19 @@ namespace ShakeitServer.Repositories
     {
         public MenuRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Menu> GetAllMenus()
+        public List<Menu> GetAllMenus(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select  m.id, m.name, m.datecreated, m.UserProfileId, m.notes, m.seasonId
-                                                s.id as seasonId s.name as seasonName
+                    cmd.CommandText = @"select  m.id, m.name, m.datecreated, m.UserProfileId, m.notes, m.seasonId,
+                                                s.id as seasonId, s.name as seasonName
                                                 from menu m join season s on m.seasonId = s.id
-                                                where i.IsDeleted = 0";
+                                                where m.userprofileId = @userProfileId";
+
+                    DbUtils.AddParameter(cmd, "@userProfileId", id);
                     var reader = cmd.ExecuteReader();
                     var menus = new List<Menu>();
                     while (reader.Read())
@@ -40,7 +42,7 @@ namespace ShakeitServer.Repositories
             }
         }
 
-        public Menu GetMenuById(int id)
+        public Menu GetMenuById(int id, int UserProfileId)
         {
             using (var conn = Connection)
             {
@@ -53,7 +55,9 @@ namespace ShakeitServer.Repositories
                                                 from menu m join season s on m.seasonId = s.id
                                                 join CocktailMenu cm on cm.MenuId = m.id
                                                 where m.IsDeleted = 0
-                                                and m.id = @id";
+                                                and m.id = @id
+                                                and m.UserProfileId = @UserProfileId";
+                    DbUtils.AddParameter(cmd, "@UserProfileId", UserProfileId);
                     DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
                     Menu menu = null;
