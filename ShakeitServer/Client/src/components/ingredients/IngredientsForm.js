@@ -31,7 +31,7 @@ export const IngredientEntry = () => {
 
     const handleSaveEvent = (click) => {
         click.preventDefault()
-        if (ingredient.name === "" || ingredient.typeId === 0) {
+        if (ingredient.name === "" || ingredient.IngredientTypeId === 0) {
             window.alert("Please fill in all fields")
         } else {
             addIngredient(ingredient)
@@ -69,7 +69,7 @@ export const IngredientEntry = () => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Ingredient Type</Form.Label>
-                    <Form.Control as="select" value={ingredient.typeId} name="typeId" id="typeId" onChange={handleInputChange} className="form-control" >
+                    <Form.Control as="select" value={ingredient.IngredientTypeId} name="IngredientTypeId" id="IngredientTypeId" onChange={handleInputChange} className="form-control" >
                         <option value="0">Type</option>
                         {types.map(t => (
                             <option key={t.id} value={t.id}>
