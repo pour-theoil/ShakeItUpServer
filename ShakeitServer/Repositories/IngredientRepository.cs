@@ -21,8 +21,8 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select  i.id, i.name, i.abv, i.UserProfileId
-                                                t.id as IngredientTypeId t.name as IngredientName
+                    cmd.CommandText = @"select  i.id, i.name, i.abv, 
+                                                t.id as IngredientTypeId, t.name as IngredientName
                                                 from ingredient i join ingredienttype t on i.IngredientTypeId = t.id
                                                 where i.IsDeleted = 0";
                     var reader = cmd.ExecuteReader();
@@ -138,7 +138,7 @@ namespace ShakeitServer.Repositories
                 Name = DbUtils.GetString(reader, "Name"),
                 IngredientTypeId = DbUtils.GetInt(reader, "IngredientTypeId"),
                 Abv = DbUtils.GetInt(reader, "Abv"),
-                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                //UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
 
                 IngredientType = new IngredientType()
                 {

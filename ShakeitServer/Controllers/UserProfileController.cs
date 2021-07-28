@@ -6,7 +6,7 @@ using ShakeitServer.Models;
 namespace ShakeitServer.Controllers
 
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
