@@ -30,7 +30,7 @@ export const EditIngredientForm = () => {
         const editedIngredient = {
             id: ingredientId,
             name: ingredient.name,
-            typeId: ingredient.typeId,
+            ingredientTypeId: ingredient.ingredientTypeId,
             abv: ingredient.abv,
             alcoholic: ingredient.alcoholic
         }
@@ -38,7 +38,7 @@ export const EditIngredientForm = () => {
         updateIngredient(editedIngredient)
             .then(() => history.push('/ingredients'))
     }
-
+    console.log(ingredient)
     const handleCancelSave = (click) => {
         click.preventDefault()
         history.push('/ingredients')
@@ -52,7 +52,7 @@ export const EditIngredientForm = () => {
     const makeCocktailWithIngredient = () => {
         history.push(`/home/${ingredientId}`)
     }
-
+    
     useEffect(() => {
         getTypes()
     },[])
@@ -60,6 +60,7 @@ export const EditIngredientForm = () => {
     useEffect(() => {
         getIngredientById(ingredientId)
             .then(ingredient => {
+                
                 setIngredient(ingredient)
                 setIsLoading(false)
             })
@@ -87,7 +88,7 @@ export const EditIngredientForm = () => {
                     <Form.Group as={Row}>
                         <Form.Label column xs={6}>Ingredient Type:</Form.Label>
                         <Col xs={6}>
-                        <Form.Control as="select" value={ingredient.typeId} id='typeId' name="typeId" onChange={handleFieldChange} className="form-control" >
+                        <Form.Control as="select" value={ingredient.ingredientTypeId} id='ingredientTypeId' name="ingredientTypeId" onChange={handleFieldChange} className="form-control" >
                             {types.map(t => (
                                 <option key={t.id} value={t.id}>
                                     {t.name}

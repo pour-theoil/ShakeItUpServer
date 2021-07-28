@@ -48,8 +48,8 @@ namespace ShakeitServer.Repositories
 
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select  i.id, i.name, i.abv, i.UserProfileId
-                                        t.id as IngredientTypeId t.name as IngredientName
+                    cmd.CommandText = @"select  i.id, i.name, i.abv, 
+                                        t.id as IngredientTypeId, t.name as IngredientName
                                         from ingredient i join ingredienttype t on i.IngredientTypeId = t.id
                                         where i.id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -78,9 +78,9 @@ namespace ShakeitServer.Repositories
                 using(var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        Insert into Ingredient (Name, IngredientTypeId, Abv, UserProfileId)
+                                        Insert into Ingredient (Name, IngredientTypeId, Abv)
                                         Output inserted.id
-                                        values (@name, @ingredienttypeid, @abv, @UserProfileId)";
+                                        values (@name, @ingredienttypeid, @abv)";
                     DbUtils.AddParameter(cmd, "@name", ingredient.Name);
                     DbUtils.AddParameter(cmd, "@ingredienttypeid", ingredient.IngredientTypeId);
                     DbUtils.AddParameter(cmd, "@abv", ingredient.Abv);
@@ -102,14 +102,14 @@ namespace ShakeitServer.Repositories
                                         Update Ingredient
                                         Set Name = @name,
                                             IngredientTypeId = @ingredienttypeid,
-                                            Abv = @abv,
-                                            UserProfileId = @UserProfileId
+                                            Abv = @abv
+                                    
                                         Where Id = @id";
                     DbUtils.AddParameter(cmd, "@id", ingredient.Id);
                     DbUtils.AddParameter(cmd, "@name", ingredient.Name);
                     DbUtils.AddParameter(cmd, "@ingredienttypeid", ingredient.IngredientTypeId);
                     DbUtils.AddParameter(cmd, "@abv", ingredient.Abv);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", ingredient.UserProfileId);
+                   
                     cmd.ExecuteNonQuery();
                 }
             }

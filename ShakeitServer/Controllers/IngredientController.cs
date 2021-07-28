@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ShakeitServer.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class IngredientController : ControllerBase
@@ -47,7 +47,7 @@ namespace ShakeitServer.Controllers
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
-        {
+         {
             var ingredient = _ingredientRepository.GetIngredientById(id);
             if(ingredient == null)
             {
