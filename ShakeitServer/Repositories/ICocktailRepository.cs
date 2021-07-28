@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace ShakeitServer.Repositories
 {
-    interface ICocktailRepository
+    public interface ICocktailRepository
     {
         public List<Cocktail> GetAllCocktails();
         public Cocktail GetCocktailById(int id);
         public void AddCocktail(Cocktail cocktail);
         public void UpdateCocktail(Cocktail cocktail);
         public void DeleteCocktail(int cocktailId);
+        public int NumCocktails(int id);
     }
 }

@@ -6,7 +6,7 @@ import { Form, Button,  Container } from "react-bootstrap";
 export const IngredientEntry = () => {
     const [ingredient, setIngredient] = useState({
         name: "",
-        typeId: 0,
+        IngredientTypeId: 0,
         alcoholic: false,
         abv: ""
     })

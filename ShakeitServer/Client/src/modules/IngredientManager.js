@@ -16,6 +16,7 @@ export const getAllIngredients = () => {
             }
         }).then(resp => {
             if (resp.ok) {
+
                 return resp.json();
             } else {
                 throw new Error("An unknown error occurred while trying to get ingredients.");
@@ -25,15 +26,21 @@ export const getAllIngredients = () => {
 };
 
 export const deleteIngredient = (ingredientId) => {
-    return fetch(`${url}/ingredient/${ingredientId}`, {
-        method: "DELETE"
-    })
-        .then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/${ingredientId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+
+        })
+    });
+};
 
 export const getIngredientById = (id) => {
     return getToken().then((token) => {
-        return fetch(`${url}/ingredient/${id}`, {
+        return fetch(`${url}/Ingredient/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,17 +55,28 @@ export const getIngredientById = (id) => {
 };
 
 export const updateIngredient = (obj) => {
-    return fetch(`${url}/ingredient/${obj.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/${obj.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(resp => {
+            if (resp.ok) {
+                return;
+            } else if (resp.status === 401) {
+                throw new Error("Unauthorized");
+            } else {
+                throw new Error("An unknown error occurred while trying to update ingredient.");
+            }
+        });
+    });
+};
 
 export const addIngredient = (obj) => {
-    return fetch(`${url}/ingredient`, {
+    return fetch(`${url}/Ingredient`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -69,26 +87,37 @@ export const addIngredient = (obj) => {
 
 export const getAllTypes = () => {
     return getToken().then((token) => {
-        return fetch(`${url}/ingredient/types`
-            , {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(resp => {
-                if (resp.ok) {
-                    return resp.json();
-                } else {
-                    throw new Error("An unknown error occurred while trying to get ingredients.");
-                }
-            });
+        return fetch(`/api/IngredientType`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
     });
 };
 
 export const getIngredientCocktails = (id) => {
-    return fetch(`${url}/cocktailingredients?ingredientId=${id}`)
-        .then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/cocktail/numIngredients/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
+    });
+};
 
 // Possible coding for firebase...
 // // // import firebase from 'firebase/app';

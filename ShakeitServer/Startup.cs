@@ -1,19 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShakeitServer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace ShakeitServer
 {
@@ -34,6 +28,7 @@ namespace ShakeitServer
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<ISeasonRepository, SeasonRepository>();
             services.AddTransient<IIngredientTypeRepository, IngredientTypeRepository>();
+            services.AddTransient<ICocktailRepository, CocktailRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
@@ -52,11 +47,11 @@ namespace ShakeitServer
                     };
                 });
 
-
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShakeItUpServer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShakeitUp", Version = "v1" });
 
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -94,8 +89,8 @@ namespace ShakeitServer
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

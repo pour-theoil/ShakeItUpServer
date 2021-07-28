@@ -19,7 +19,6 @@ export const onLoginStatusChange = (onLoginStatusChangeHandler) => {
 
 
 const _doesUserExist = (firebaseUserId) => {
-
     return getToken().then((token) =>
         fetch(`${_apiUrl}/DoesUserExist/${firebaseUserId}`, {
             method: "GET",
