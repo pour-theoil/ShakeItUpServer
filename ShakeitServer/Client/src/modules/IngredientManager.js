@@ -1,25 +1,54 @@
-import  { urlHelper }  from "./ServerHelper";
+import { urlHelper } from "./ServerHelper";
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
+const getToken = () => firebase.auth().currentUser.getIdToken();
 const url = urlHelper()
 
+
+
 export const getAllIngredients = () => {
-    return fetch(`${url}/ingredients?_expand=type`)
-    .then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
+    });
+};
 
 export const deleteIngredient = (ingredientId) => {
-    return fetch(`${url}/ingredients/${ingredientId}`, {
+    return fetch(`${url}/ingredient/${ingredientId}`, {
         method: "DELETE"
     })
-    .then(response => response.json())
+        .then(response => response.json())
 }
 
 export const getIngredientById = (id) => {
-    return fetch(`${url}/ingredients/${id}?_expand=type`)
-    .then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
+    });
+};
 
 export const updateIngredient = (obj) => {
-    return fetch(`${url}/ingredients/${obj.id}`, {
+    return fetch(`${url}/ingredient/${obj.id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -29,7 +58,7 @@ export const updateIngredient = (obj) => {
 }
 
 export const addIngredient = (obj) => {
-    return fetch(`${url}/ingredients`, {
+    return fetch(`${url}/ingredient`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -39,13 +68,26 @@ export const addIngredient = (obj) => {
 }
 
 export const getAllTypes = () => {
-    return fetch(`${url}/types`)
-    .then(response => response.json())
-}
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/types`
+            , {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                if (resp.ok) {
+                    return resp.json();
+                } else {
+                    throw new Error("An unknown error occurred while trying to get ingredients.");
+                }
+            });
+    });
+};
 
 export const getIngredientCocktails = (id) => {
     return fetch(`${url}/cocktailingredients?ingredientId=${id}`)
-    .then(response => response.json())
+        .then(response => response.json())
 }
 
 // Possible coding for firebase...

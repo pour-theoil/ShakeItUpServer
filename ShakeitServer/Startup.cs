@@ -32,6 +32,8 @@ namespace ShakeitServer
             services.AddTransient<IMenuRepository, MenuRepository>();
             services.AddTransient<IIngredientRepository, IngredientRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<ISeasonRepository, SeasonRepository>();
+            services.AddTransient<IIngredientTypeRepository, IngredientTypeRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
@@ -54,7 +56,7 @@ namespace ShakeitServer
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WisdomAndGrace", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShakeItUpServer", Version = "v1" });
 
                 var securitySchema = new OpenApiSecurityScheme
                 {
