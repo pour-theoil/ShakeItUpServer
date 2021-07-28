@@ -13,7 +13,7 @@ namespace ShakeitServer.Controllers
     public class CocktailController : ControllerBase
     {
         private readonly ICocktailRepository _cocktailRepository;
-
+        
         public CocktailController(ICocktailRepository cocktailRepository)
         {
             _cocktailRepository = cocktailRepository;
@@ -22,7 +22,20 @@ namespace ShakeitServer.Controllers
         [HttpGet("numIngredients/{id}")]
         public IActionResult GetNumIngredients(int id)
         {
-            return Ok(_cocktailRepository.NumCocktails(id));
+            return Ok(_cocktailRepository.NumIngredientInCocktails(id));
         }
+
+        [HttpGet("numCocktails/{id}")]
+        public IActionResult GetNumCocktails(int id)
+        {
+            return Ok(_cocktailRepository.NumberCocktailsOnMenu(id));
+        }
+
+        //[HttpGet("menu/cocktails/{id}")]
+        //public IActionResult GetMenuCocktails(int id)
+        //{
+        //    return Ok(_cocktailRepository.)
+        //}
+       
     }
 }

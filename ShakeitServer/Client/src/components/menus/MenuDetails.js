@@ -15,19 +15,19 @@ export const MenuDetails = () => {
         getMenuById(menuId)
         .then(menuObj => setMenu(menuObj))
     }
-
+    console.log(menu)
     const removeCocktailFromMenu = (id) => {
         if (window.confirm("Are you sure you want to remove this cocktial?")){
             deleteMenuCocktail(id)
-            .then(() => getMenuCocktails())
+            // .then(() => getMenuCocktails())
         }
     }
     
     //get cocktails associated with that menu
-    const getMenuCocktails = () => {
-        getCocktails(menuId)
-        .then(cocktail => setCocktails(cocktail))
-    }
+    // const getMenuCocktails = () => {
+    //     getCocktails(menuId)
+    //     .then(cocktail => setCocktails(cocktail))
+    // }
     
     const deleteSetMenu = (id) => {
         if (window.confirm("Are you sure you want to delete this menu?")){
@@ -43,10 +43,10 @@ export const MenuDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[cocktails])
 
-    useEffect(() => {
-        getMenuCocktails()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    // useEffect(() => {
+    //     getMenuCocktails()
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // },[])
 
     
     return (
