@@ -11,7 +11,7 @@ export const MenuEntry = ({colorArray, menu, timeconverter}) => {
   
 
     const getMenuCocktails = (id) => {
-        getCocktails(id).then(response => setMenuLength(response.length))
+        getCocktails(id).then(response => setMenuLength(response))
         
     }
 

@@ -77,23 +77,23 @@ export const updateIngredient = (obj) => {
 
 export const addIngredient = (obj) => {
     return getToken().then((token) => {
-    return fetch(`${url}/Ingredient`, {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(resp => {
-        if (resp.ok) {
-            return resp.json();
-        } else if (resp.status === 401) {
-            throw new Error("Unauthorized");
-        } else {
-            throw new Error("An unknown error occurred while trying to save a new ingredient.");
-        }
+        return fetch(`${url}/Ingredient`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else if (resp.status === 401) {
+                throw new Error("Unauthorized");
+            } else {
+                throw new Error("An unknown error occurred while trying to save a new ingredient.");
+            }
+        });
     });
-});
 };
 
 export const getAllTypes = () => {
