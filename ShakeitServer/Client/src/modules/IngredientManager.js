@@ -25,6 +25,24 @@ export const getAllIngredients = () => {
     });
 };
 
+export const getSearchIngredients = (criterion) => {
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/search?q=${criterion}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+
+                return resp.json();
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
+    });
+};
+
 export const deleteIngredient = (ingredientId) => {
     return getToken().then((token) => {
         return fetch(`${url}/ingredient/${ingredientId}`, {
@@ -109,6 +127,25 @@ export const addIngredient = (obj) => {
     });
 };
 
+export const addUserIngredient = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${url}/Ingredient/AddUserIngredient/${id}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                return;
+            } else if (resp.status === 401) {
+                throw new Error("Unauthorized");
+            } else {
+                throw new Error("An unknown error occurred while trying to save a new ingredient.");
+            }
+        });
+    });
+};
 export const getAllTypes = () => {
     return getToken().then((token) => {
         return fetch(`/api/IngredientType`, {

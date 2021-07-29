@@ -103,6 +103,12 @@ namespace ShakeitServer.Controllers
             return Ok(_ingredientRepository.GetIngredientsByType(id, user.Id));
         }
 
+        [HttpGet("search")]
+        public IActionResult Search(string q)
+        {
+            return Ok(_ingredientRepository.SearchIngredients(q));
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
