@@ -14,7 +14,7 @@ namespace ShakeitServer.Repositories
     {
         public IngredientRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Ingredient> GetAllIngredients()
+        public List<Ingredient> GetAllIngredients(int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -23,8 +23,11 @@ namespace ShakeitServer.Repositories
                 {
                     cmd.CommandText = @"select  i.id, i.name, i.abv, 
                                                 t.id as IngredientTypeId, t.name as IngredientName
-                                                from ingredient i join ingredienttype t on i.IngredientTypeId = t.id
-                                                where i.IsDeleted = 0";
+                                                from userIngredient uI join ingredient i on uI.ingredientId = i.id
+                                                left join ingredienttype t on i.IngredientTypeId = t.id
+                                                where uI.userprofileId = @userprofileId;
+                                                ";
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
                     var reader = cmd.ExecuteReader();
                     var ingredients = new List<Ingredient>();
                     while (reader.Read())
@@ -40,7 +43,36 @@ namespace ShakeitServer.Repositories
             }
         }
 
-        public Ingredient GetIngredientById(int id)
+        public List<Ingredient> GetIngredientsByType(int typeId, int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select  select  i.id, i.name, i.abv, 
+                                                t.id as IngredientTypeId, t.name as IngredientName
+                                                from userIngredient uI join ingredient i on uI.ingredientId = i.id
+                                                left join ingredienttype t on i.IngredientTypeId = t.id
+                                                where uI.userprofileId = @userprofileId and i.IngredientTypeId = @typeId";
+
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
+                    DbUtils.AddParameter(cmd, "@typeId", typeId);
+                    var reader = cmd.ExecuteReader();
+                    var ingredients = new List<Ingredient>();
+                    while (reader.Read())
+                    {
+                        ingredients.Add(NewIngredientFromDb(reader));
+                    }
+
+                    reader.Close();
+
+                    return ingredients;
+                }
+
+            }
+        }
+        public Ingredient GetIngredientById(int ingredientId, int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -49,10 +81,13 @@ namespace ShakeitServer.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"select  i.id, i.name, i.abv, 
-                                        t.id as IngredientTypeId, t.name as IngredientName
-                                        from ingredient i join ingredienttype t on i.IngredientTypeId = t.id
-                                        where i.id = @id";
-                    DbUtils.AddParameter(cmd, "@id", id);
+                                                t.id as IngredientTypeId, t.name as IngredientName
+                                                from userIngredient uI join ingredient i on uI.ingredientId = i.id
+                                                left join ingredienttype t on i.IngredientTypeId = t.id
+                                                where uI.userprofileId = @userprofileId and uI.IngredientId = @ingredientId";
+                    
+                    DbUtils.AddParameter(cmd, "@ingredientId", ingredientId);
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
                     var reader = cmd.ExecuteReader();
                     Ingredient ingredient = null;
                     while (reader.Read())
@@ -67,6 +102,40 @@ namespace ShakeitServer.Repositories
                     return ingredient;
                 }
 
+            }
+        }
+        public void AddUserIngredient(int ingredientId, int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        Insert into UserIngredient (ingredientId, userprofileId)
+                                        values (@ingredientId, @userprofileId)";
+
+                    DbUtils.AddParameter(cmd, "@ingredientId", ingredientId);
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteUserIngredient(int ingredientId, int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Delete UserIngredient
+                                        where userprofileId = @userprofileId and IngredientId = @ingredientId";
+                    DbUtils.AddParameter(cmd, "@ingredientId", ingredientId);
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

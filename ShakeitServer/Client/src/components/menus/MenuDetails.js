@@ -53,10 +53,11 @@ export const MenuDetails = () => {
         <>
               <Container className="justified-content-center">
                 
-                    <h2 className="menu-title">{menu[0]?.name}</h2>
-                    <h5>Season: {menu[0]?.season.name}</h5>
+                    <h2 className="menu-title">{menu?.name}</h2>
+                    <h5>Season: {menu.season?.name}</h5>
                 <Container>
-                    {cocktails.map(cocktail => <CocktailCard   cocktail={cocktail}
+                    {menu.cocktails?.length === 0 ? <div>there are no cocktails on this menu yet...</div>
+                    : menu.cocktails?.map(cocktail => <CocktailCard   cocktail={cocktail}
                                                                 key={cocktail.id}
                                                                 removeCocktailFromMenu={removeCocktailFromMenu}/>)}
                 </Container>

@@ -54,9 +54,9 @@ namespace ShakeitServer.Repositories
                                                 s.id as seasonId, s.name as seasonName,
                                                 c.id as cocktailid, c.name as cocktailname
 
-                                                from menu m join season s on m.seasonId = s.id
-                                                join CocktailMenu cm on cm.MenuId = m.id
-                                                join cocktail c on c.id = cm.cocktialId
+                                                from menu m left join season s on m.seasonId = s.id
+                                                left join CocktailMenu cm on cm.MenuId = m.id
+                                                left join cocktail c on c.id = cm.cocktailId
                                                 where m.IsDeleted = 0
                                                 and m.id = @id
                                                 and m.UserProfileId = @UserProfileId";
@@ -71,7 +71,7 @@ namespace ShakeitServer.Repositories
                             menu = NewMenuFromDb(reader);
                             menu.Cocktails = new List<Cocktail>();
                         }
-                        if (DbUtils.IsNotDbNull(reader, "CategoryId"))
+                        if (DbUtils.IsNotDbNull(reader, "cocktailid"))
                         {
                             menu.Cocktails.Add(new Cocktail()
                             {
