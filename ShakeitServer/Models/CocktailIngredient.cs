@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace ShakeitServer.Models
 {
-    public class Cocktail
+    public class CocktailIngredient
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<CocktailIngredient> Ingredients { get; set; }
-        public int UserProfileId { get; set; }
+        public int Pour { get; set; }
     }
 }

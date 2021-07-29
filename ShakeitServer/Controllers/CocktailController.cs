@@ -31,11 +31,11 @@ namespace ShakeitServer.Controllers
             return Ok(_cocktailRepository.NumberCocktailsOnMenu(id));
         }
 
-        //[HttpGet("menu/cocktails/{id}")]
-        //public IActionResult GetMenuCocktails(int id)
-        //{
-        //    return Ok(_cocktailRepository.)
-        //}
-       
+        [HttpGet("ingredients/{id}")]
+        public IActionResult GetCocktailIngredients(int id)
+        {
+            return Ok(_cocktailRepository.CocktailIngredients(id));
+        }
+
     }
 }

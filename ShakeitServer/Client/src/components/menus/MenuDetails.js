@@ -15,7 +15,7 @@ export const MenuDetails = () => {
         getMenuById(menuId)
         .then(menuObj => setMenu(menuObj))
     }
-    console.log(menu)
+
     const removeCocktailFromMenu = (id) => {
         if (window.confirm("Are you sure you want to remove this cocktial?")){
             deleteMenuCocktail(id)
@@ -36,7 +36,7 @@ export const MenuDetails = () => {
 
         }
     }
-
+    console.log(menu)
 
     useEffect(() => {
             getSetMenu()

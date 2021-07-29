@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useHistory } from 'react-router-dom'
-import { getAllCocktails, deleteCocktail } from '../../modules/CocktailManager'
+import { getAllCocktail, deleteCocktail } from '../../modules/CocktailManager'
 import { CocktailCard } from './CocktailCard'
 import { Container, Button, Row } from 'react-bootstrap'
 
@@ -9,7 +9,7 @@ export const CocktailList = () => {
     const history = useHistory()
 
     const getCocktails = () => {
-        getAllCocktails()
+        getAllCocktail()
         .then(cocktails => {
             cocktails.sort(function(a, b){
                 var x = a.name?.toLowerCase();
