@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { EditIngredientForm } from './ingredients/IngredientEditForm'
 import { IngredientList } from './ingredients/IngredientsList'
 import { IngredientEntry } from './ingredients/IngredientsForm'
+import { IngredientSearch } from './ingredients/IngredientSearch'
 import { BuilderList } from './builder/BuilderList'
 import { MenuList } from './menus/MenuList'
 import { SingleCocktailEditForm } from './cocktials/CocktailEdit'
@@ -74,6 +75,11 @@ export default function ApplicationViews({ isLoggedIn }) {
 
                 <Route path='/ingredients/create'>
                     {isLoggedIn ? <IngredientEntry /> : <Redirect to="/login" />}
+
+                </Route>
+
+                <Route path='/ingredients/userIngredient'>
+                    {isLoggedIn ? <IngredientSearch /> : <Redirect to="/login" />}
 
                 </Route>
 
