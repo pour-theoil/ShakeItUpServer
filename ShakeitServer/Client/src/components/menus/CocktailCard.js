@@ -8,9 +8,10 @@ export const CocktailCard = ({ cocktail, removeCocktailFromMenu }) => {
     //create a state variable for the ingredients associated with the specific cocktail. Then join them into a string.
     const [ingredients, setIngredients] = useState([])
     const getIngredients = () =>{
-        getAllIngredients(cocktail.cocktailId)
-        .then(ingredients => {
-            let ingredientsObj = ingredients.map(ingredient => ingredient.ingredient.name)
+        getAllIngredients(cocktail.id)
+        .then(cocktail => {
+            debugger
+            let ingredientsObj = cocktail.ingredients.map(ingredient => ingredient.name)
             ingredientsObj.reverse()
             setIngredients(ingredientsObj)
         }
@@ -25,7 +26,7 @@ export const CocktailCard = ({ cocktail, removeCocktailFromMenu }) => {
         <>
         <Accordion>
                 <Card bg="info" className="ingredient-card">
-                    <Accordion.Toggle as={Card.Title} eventKey="0">{cocktail.cocktail?.name}</Accordion.Toggle>
+                    <Accordion.Toggle as={Card.Title} eventKey="0">{cocktail.name}</Accordion.Toggle>
                     <Accordion.Toggle as={Card.Subtitle} eventKey="0">{ingredients.join(", ")}</Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                     <Row fluid="true">

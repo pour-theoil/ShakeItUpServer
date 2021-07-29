@@ -49,9 +49,22 @@ export const updateCocktail = (obj) => {
 }
 
 export const getAllIngredients = (id) => {
-    return fetch(`${url}/cocktailingredients?cocktailId=${id}&_expand=ingredient`)
-        .then(response => response.json())
-}
+    return getToken().then((token) => {
+    return fetch(`${url}/Cocktail/ingredients/${id}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }).then(resp => {
+        if (resp.ok) {
+
+            return resp.json();
+        } else {
+            throw new Error("An unknown error occurred while trying to get ingredients.");
+        }
+    });
+});
+};
 
 export const updateCocktailIngredients = (obj) => {
     return fetch(`${url}/cocktailingredients/${obj.id}`, {

@@ -50,7 +50,7 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select  select  i.id, i.name, i.abv, 
+                    cmd.CommandText = @"select  i.id, i.name, i.abv, 
                                                 t.id as IngredientTypeId, t.name as IngredientName
                                                 from userIngredient uI join ingredient i on uI.ingredientId = i.id
                                                 left join ingredienttype t on i.IngredientTypeId = t.id

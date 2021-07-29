@@ -106,8 +106,56 @@ namespace ShakeitServer.Repositories
             }
         }
 
-      
 
+        public Cocktail CocktailIngredients(int id)
+        {
+
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select  c.Id, c.name, c.UserProfileId, ci.Pour as IngredientPour, 
+                                        ci.IngredientId as IngredientId, i.Name as IngredientName
+                                        from cocktail c left join cocktailingredient ci on ci.cocktailId = c.id
+                                        left join Ingredient i on i.id = ci.IngredientId                                              
+                                        where c.id = @cocktailId";
+
+                    DbUtils.AddParameter(cmd, "@cocktailId", id);
+                    var reader = cmd.ExecuteReader();
+                    Cocktail cocktail = null;
+                    
+                    
+                    while (reader.Read())
+                    {
+                       if(cocktail == null)
+                        {
+                            cocktail = new Cocktail()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                                Ingredients = new List<CocktailIngredient>()
+                            };
+                        }
+                        if (DbUtils.IsNotDbNull(reader, "IngredientId"))
+                        {
+                            cocktail.Ingredients.Add(new CocktailIngredient()
+                            {
+                                Id = DbUtils.GetInt(reader, "IngredientId"),
+                                Name = DbUtils.GetString(reader, "IngredientName"),
+                                Pour = DbUtils.GetInt(reader, "IngredientPour")
+                            });
+                        }
+                    }
+
+                    reader.Close();
+
+                    return cocktail;
+                }
+
+            }
+        }
 
 
         private Cocktail NewCocktailFromDb(SqlDataReader reader)
