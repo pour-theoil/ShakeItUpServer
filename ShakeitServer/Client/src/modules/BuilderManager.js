@@ -1,15 +1,32 @@
-import  { urlHelper }  from "./ServerHelper";
+import { urlHelper } from "./ServerHelper";
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 const url = urlHelper()
+const getToken = () => firebase.auth().currentUser.getIdToken();
+
 
 export const getRandomId = (typeId) => {
-    return fetch(`${url}/ingredients?typeId=${typeId}&_expand=type`)
-      .then(result => result.json())
-      .then(array => {
-        const randomIndex = Math.floor(Math.random() * array.length);
-        const randomingredient = array[randomIndex];
-        return randomingredient;
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/GetIngredientByType/${typeId}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => {
+            if (resp.ok) {
+                resp.json()
+                    .then(array => {
+                        const randomIndex = Math.floor(Math.random() * array.length);
+                        const randomingredient = array[randomIndex];
+                        return randomingredient;
+                    })
+            } else {
+                throw new Error("An unknown error occurred while trying to get ingredients.");
+            }
+        });
     });
-  } 
+};
 
 export const addCocktailIngredient = (obj) => {
     return fetch(`${url}/cocktailingredients`, {
@@ -33,7 +50,7 @@ export const updateCocktail = (obj) => {
 
 export const getAllIngredients = (id) => {
     return fetch(`${url}/cocktailingredients?cocktailId=${id}&_expand=ingredient`)
-    .then(response => response.json())
+        .then(response => response.json())
 }
 
 export const updateCocktailIngredients = (obj) => {

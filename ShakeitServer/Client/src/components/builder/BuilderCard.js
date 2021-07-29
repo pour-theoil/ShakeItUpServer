@@ -37,7 +37,7 @@ export const BuilderCard = ({selectedIngredient, arrayObj, reload, setIngredient
         } else newlocked = true
         setLocked(newlocked)
     }
-    
+    console.log(ingredient)
     useEffect(() => {
         if(ingredient.id) {
             updateIngredientArray()
@@ -61,7 +61,7 @@ export const BuilderCard = ({selectedIngredient, arrayObj, reload, setIngredient
 
                     <Col>
                         <Card.Title>{ingredient?.name}</Card.Title>
-                        <Card.Subtitle className="type-shaker">({ingredient.type?.name})</Card.Subtitle>
+                        <Card.Subtitle className="type-shaker">({ingredient?.IngredientType?.name})</Card.Subtitle>
                     </Col> 
                     </Button>
                     

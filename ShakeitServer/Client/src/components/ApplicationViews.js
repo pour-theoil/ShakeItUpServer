@@ -11,6 +11,7 @@ import { MenuDetails } from './menus/MenuDetails'
 import { CocktailAddForm } from './builder/CocktailForm'
 import { CocktailEditForm } from './menus/CocktailEditForm'
 import { CocktailList } from './cocktials/CocktailList'
+import { IngredientDetails } from './ingredients/IngredientDetails'
 import Login from './auth/Login'
 import Register from './auth/Register'
 
@@ -63,6 +64,11 @@ export default function ApplicationViews({ isLoggedIn }) {
 
                 <Route path="/ingredients/edit/:ingredientId" exact>
                     {isLoggedIn ? <EditIngredientForm /> : <Redirect to="/login" />}
+
+                </Route>
+
+                <Route path="/ingredients/details/:ingredientId" exact>
+                    {isLoggedIn ? <IngredientDetails /> : <Redirect to="/login" />}
 
                 </Route>
 

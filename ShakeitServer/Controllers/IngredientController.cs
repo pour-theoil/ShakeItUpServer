@@ -6,6 +6,7 @@ using ShakeitServer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShakeitServer.Controllers
@@ -17,18 +18,22 @@ namespace ShakeitServer.Controllers
     {
         private IIngredientRepository _ingredientRepository;
         private IIngredientTypeRepository _ingredientTypeRepository;
+        private IUserProfileRepository _userProfileRepository;
 
         public IngredientController(IIngredientRepository ingredientRepository,
-                                    IIngredientTypeRepository ingredientTypeRepository)
+                                    IIngredientTypeRepository ingredientTypeRepository,
+                                    IUserProfileRepository userProfileRepositor)
         {
             _ingredientRepository = ingredientRepository;
             _ingredientTypeRepository = ingredientTypeRepository;
+            _userProfileRepository = userProfileRepositor;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_ingredientRepository.GetAllIngredients());
+            var user = GetCurrentUserProfile();
+            return Ok(_ingredientRepository.GetAllIngredients(user.Id));
         }
 
         [HttpPost]
@@ -36,6 +41,22 @@ namespace ShakeitServer.Controllers
         {
             _ingredientRepository.AddIngredient(ingredient);
             return CreatedAtAction("Get", new { id = ingredient.Id }, ingredient);
+        }
+
+        [HttpPost("AddUserIngredient/{id}")]
+        public IActionResult AddUserIngredient(int id)
+        {
+            var user = GetCurrentUserProfile();
+            _ingredientRepository.AddUserIngredient(id, user.Id);
+            return Ok();
+        }
+
+        [HttpDelete("DeleteUserIngredient/{id}")]
+        public IActionResult DeleteUserIngredient(int id)
+        {
+            var user = GetCurrentUserProfile();
+            _ingredientRepository.DeleteUserIngredient(id, user.Id);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -47,9 +68,10 @@ namespace ShakeitServer.Controllers
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
-         {
-            var ingredient = _ingredientRepository.GetIngredientById(id);
-            if(ingredient == null)
+        {
+            var user = GetCurrentUserProfile();
+            var ingredient = _ingredientRepository.GetIngredientById(id, user.Id);
+            if (ingredient == null)
             {
                 return NotFound();
             }
@@ -72,6 +94,28 @@ namespace ShakeitServer.Controllers
         public IActionResult GetTypes()
         {
             return Ok(_ingredientTypeRepository.GetIngredientTypes());
+        }
+
+        [HttpGet("GetIngredientByType/{id}")]
+        public IActionResult GetAllIngredientByType(int id)
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_ingredientRepository.GetIngredientsByType(id, user.Id));
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (firebaseUserId != null)
+            {
+                var user = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

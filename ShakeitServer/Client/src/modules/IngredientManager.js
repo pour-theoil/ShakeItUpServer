@@ -38,6 +38,19 @@ export const deleteIngredient = (ingredientId) => {
     });
 };
 
+export const deleteUserIngredient = (ingredientId) => {
+    return getToken().then((token) => {
+        return fetch(`${url}/ingredient/DeleteUserIngredient/${ingredientId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+
+        })
+    });
+};
+
 export const getIngredientById = (id) => {
     return getToken().then((token) => {
         return fetch(`${url}/Ingredient/${id}`, {
