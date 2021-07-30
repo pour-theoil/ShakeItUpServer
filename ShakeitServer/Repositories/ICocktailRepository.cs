@@ -16,5 +16,6 @@ namespace ShakeitServer.Repositories
         public int NumberCocktailsOnMenu(int menuId);
         public Cocktail CocktailIngredients(int id);
         public int NumIngredientInCocktails(int ingredientId);
+        public void AddCocktailIngredients(Cocktail cocktail);
     }
 }

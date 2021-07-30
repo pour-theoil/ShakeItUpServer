@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShakeitServer.Models;
 using ShakeitServer.Repositories;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ShakeitServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CocktailController : ControllerBase
@@ -33,6 +35,15 @@ namespace ShakeitServer.Controllers
         public IActionResult GetNumIngredients(int id)
         {
             return Ok(_cocktailRepository.NumIngredientInCocktails(id));
+        }
+
+        [HttpPost]
+        public IActionResult Post(Cocktail cocktail)
+        {
+            cocktail.UserProfileId = GetCurrentUserProfile().Id;
+            _cocktailRepository.AddCocktail(cocktail);
+            _cocktailRepository.AddCocktailIngredients(cocktail);
+            return Ok(cocktail);
         }
 
         [HttpGet("numCocktails/{id}")]

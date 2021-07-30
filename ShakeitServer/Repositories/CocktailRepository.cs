@@ -23,18 +23,18 @@ namespace ShakeitServer.Repositories
                     var sql = @"Update Cocktail set
                                 Name = @name;
                                 ";
-                    
-                    if(cocktail.MenuId != 0)
+
+                    if (cocktail.MenuId != 0)
                     {
                         sql += @"Insert into CocktailMenu (menuId, cocktailId)
                                 values (@menuId, @cocktailId);
-                                "; 
+                                ";
                     }
 
-                    if (cocktail.Ingredients.Count >0)
+                    if (cocktail.Ingredients.Count > 0)
                     {
                         sql += "Delete from CocktailIngredient where cocktailId = @cocktailId";
-                        for(var i = 0; i < cocktail.Ingredients.Count; i++)
+                        for (var i = 0; i < cocktail.Ingredients.Count; i++)
                         {
                             sql += $@"
                                     Insert into CocktailIngredient (cocktailId, IngredientId, pour)
@@ -48,7 +48,7 @@ namespace ShakeitServer.Repositories
                     DbUtils.AddParameter(cmd, "@cocktailId", cocktail.Id);
                     DbUtils.AddParameter(cmd, "@menuId", cocktail.MenuId);
                     DbUtils.AddParameter(cmd, "@name", cocktail.Name);
-                    
+
                     cmd.ExecuteNonQuery();
 
 
@@ -151,9 +151,53 @@ namespace ShakeitServer.Repositories
 
         public void AddCocktail(Cocktail cocktail)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+
+                    cmd.CommandText = @"Insert into Cocktail (name, userProfileId) Output inserted.id values(@name, @userProfileId);";
+                    DbUtils.AddParameter(cmd, "@userProfileId", cocktail.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@name", cocktail.Name);
+                    cocktail.Id = (int)cmd.ExecuteScalar();
+                    
+                }
+            }
+
+
         }
 
+        public void AddCocktailIngredients(Cocktail cocktail)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+
+                    var sql = "";
+                    if (cocktail.Ingredients.Count > 0)
+                    {
+
+                        for (var i = 0; i < cocktail.Ingredients.Count; i++)
+                        {
+                            sql += $@"
+                                    Insert into CocktailIngredient (cocktailId, IngredientId, pour)
+                                    values (@cocktailId, @ingredientId{i}, @pour{i});";
+                            DbUtils.AddParameter(cmd, $"@ingredientId{i}", cocktail.Ingredients[i].Id);
+                            DbUtils.AddParameter(cmd, $"@pour{i}", cocktail.Ingredients[i].Pour);
+                        }
+
+                    }
+                    cmd.CommandText = sql;
+                    DbUtils.AddParameter(cmd, "@cocktailId", cocktail.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+
+        }
         public int NumberCocktailsOnMenu(int menuId)
         {
             using (var conn = Connection)
