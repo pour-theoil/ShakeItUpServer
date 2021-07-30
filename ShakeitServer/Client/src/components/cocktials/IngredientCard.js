@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Row, Col, InputGroup  } from 'react-bootstrap'
-import { updateCocktailIngredients } from '../../modules/BuilderManager'
+
 
 export const IngredientCard = ({ ingredient, saveIngredients }) => {
     const [manyToMany, setManyToMany] = useState({
@@ -22,15 +22,6 @@ export const IngredientCard = ({ ingredient, saveIngredients }) => {
         setManyToMany(newPour)
     }
 
-    const addPourValues = () => {
-        updateCocktailIngredients(manyToMany)
-    }
-
-    useEffect(() => {
-        if (saveIngredients) {
-            addPourValues()
-        }
-    })
     return (
         <Form.Group as={Row}>
             <Form.Label column xs={6} className="justify-content-end">{ingredient.name}:</Form.Label>

@@ -23,25 +23,9 @@ export const getRandomId = (typeId) => {
     });
 };
 
-export const addCocktailIngredient = (obj) => {
-    return fetch(`${url}/cocktailingredients`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}
 
-export const updateCocktail = (obj) => {
-    return fetch(`${url}/cocktails/${obj.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}
+
+
 
 export const getAllIngredients = (id) => {
     return getToken().then((token) => {
@@ -60,33 +44,3 @@ export const getAllIngredients = (id) => {
     });
 });
 };
-
-export const updateCocktailIngredients = (obj) => {
-    return fetch(`${url}/cocktailingredients/${obj.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}
-
-export const addCocktailMenu = (obj) => {
-    return fetch(`${url}/cocktailmenus`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}
-
-export const updateCocktailMenu = (obj) => {
-    return fetch(`${url}/cocktailmenus/${obj.id}`, {
-        method: "Put",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(obj)
-    }).then(response => response.json())
-}

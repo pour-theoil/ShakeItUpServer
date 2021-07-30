@@ -10,7 +10,6 @@ export const CocktailCard = ({ cocktail, removeCocktailFromMenu }) => {
     const getIngredients = () =>{
         getAllIngredients(cocktail.id)
         .then(cocktail => {
-            debugger
             let ingredientsObj = cocktail.ingredients.map(ingredient => ingredient.name)
             ingredientsObj.reverse()
             setIngredients(ingredientsObj)
@@ -32,7 +31,7 @@ export const CocktailCard = ({ cocktail, removeCocktailFromMenu }) => {
                     <Row fluid="true">
                        
                         <Col xs={2}>
-                            <Button variant="outline-primary" className="article-btn" onClick={() => history.push(`/menus/cocktail/${cocktail.cocktail.id}/edit/`)}>Edit</Button>
+                            <Button variant="outline-primary" className="article-btn" onClick={() => history.push(`/cocktails/${cocktail.id}/edit/`)}>Edit</Button>
                         </Col>
                         <Col xs={10}>
                             <Button variant="outline-warning" className="article-btn" onClick={()=> removeCocktailFromMenu(cocktail.id)}>Remove from Menu</Button>
