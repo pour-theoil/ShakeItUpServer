@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { getCocktails, getMenuById, deleteMenuCocktail, deleteMenu } from '../../modules/MenuManager'
+import { getMenuById, deleteMenuCocktail, deleteMenu } from '../../modules/MenuManager'
 import { CocktailCard } from './CocktailCard'
 import { Container, Button } from 'react-bootstrap'
 
 export const MenuDetails = () => {
-    const [cocktails, setCocktails] = useState([])
+
     const [menu, setMenu] = useState([])
     const history = useHistory()
     const {menuId} = useParams()
@@ -22,13 +22,7 @@ export const MenuDetails = () => {
             // .then(() => getMenuCocktails())
         }
     }
-    
-    //get cocktails associated with that menu
-    // const getMenuCocktails = () => {
-    //     getCocktails(menuId)
-    //     .then(cocktail => setCocktails(cocktail))
-    // }
-    
+      
     const deleteSetMenu = (id) => {
         if (window.confirm("Are you sure you want to delete this menu?")){
             deleteMenu(id)
@@ -40,13 +34,10 @@ export const MenuDetails = () => {
 
     useEffect(() => {
             getSetMenu()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[cocktails])
+ 
+    },[])
 
-    // useEffect(() => {
-    //     getMenuCocktails()
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // },[])
+  
 
     
     return (

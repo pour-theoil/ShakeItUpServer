@@ -11,5 +11,6 @@ namespace ShakeitServer.Models
         public string Name { get; set; }
         public List<CocktailIngredient> Ingredients { get; set; }
         public int UserProfileId { get; set; }
+        public int MenuId { get; set; }
     }
 }
