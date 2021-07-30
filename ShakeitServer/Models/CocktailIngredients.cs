@@ -10,6 +10,6 @@ namespace ShakeitServer.Models
         public int Id { get; set; }
         public int CocktailId { get; set; }
         public int IngredientId { get; set; }
-        public int Pour { get; set; }
+        public double Pour { get; set; }
     }
 }

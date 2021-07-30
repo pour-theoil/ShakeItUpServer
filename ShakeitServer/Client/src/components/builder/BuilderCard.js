@@ -61,7 +61,7 @@ export const BuilderCard = ({selectedIngredient, arrayObj, reload, setIngredient
 
                     <Col>
                         <Card.Title>{ingredient?.name}</Card.Title>
-                        <Card.Subtitle className="type-shaker">({ingredient?.IngredientType?.name})</Card.Subtitle>
+                        <Card.Subtitle className="type-shaker">({ingredient?.ingredientType?.name})</Card.Subtitle>
                     </Col> 
                     </Button>
                     

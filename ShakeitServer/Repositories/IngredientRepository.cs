@@ -212,7 +212,7 @@ namespace ShakeitServer.Repositories
                                                 left join ingredienttype t on i.IngredientTypeId = t.id
                                                 where i.name like @criterion";
 
-                    
+
                     DbUtils.AddParameter(cmd, "@criterion", $"%{criterion}%");
                     var reader = cmd.ExecuteReader();
                     var ingredients = new List<Ingredient>();
@@ -225,6 +225,39 @@ namespace ShakeitServer.Repositories
 
                     return ingredients;
                 }
+            }
+        }
+
+        public Ingredient RandomIngredient(int ingredientTypeId, int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select top 1 i.id, i.name, i.abv, 
+                                        t.id as IngredientTypeId, t.name as IngredientName
+                                        from userIngredient uI join ingredient i on uI.ingredientId = i.id
+                                        left join ingredienttype t on i.IngredientTypeId = t.id
+                                        where uI.userprofileId = @userprofileId and t.id = @ingredientTypeId
+                                        ORDER BY newid()";
+
+                    DbUtils.AddParameter(cmd, "@ingredientTypeId", ingredientTypeId);
+                    DbUtils.AddParameter(cmd, "@userprofileId", userProfileId);
+                    var reader = cmd.ExecuteReader();
+                    Ingredient ingredient = null;
+                    while (reader.Read())
+                    {
+
+                        ingredient = NewIngredientFromDb(reader);
+
+                    }
+
+                    reader.Close();
+                    return ingredient;
+                }
+
             }
         }
 

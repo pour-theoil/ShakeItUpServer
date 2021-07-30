@@ -10,7 +10,6 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 export const CocktailAddForm = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [menus, setMenus] = useState([])
-    const [ingredients, setIngredients] = useState([])
     const [saveIngredients, setSaveIngredients] = useState(false)
     const {cocktailId} = useParams()
 
@@ -50,15 +49,6 @@ export const CocktailAddForm = () => {
         setCocktailMenu(newCocktailMenu)
     }
 
-    //query for the ingredients from the cocktailingredients table
-    const getIngredients = () =>{
-        getAllIngredients(cocktailId)
-        .then(ingredients => {
-            ingredients.reverse()
-            setIngredients(ingredients)
-        })
-        
-    }
     
     
     //save the menu and the cocktail states after they have been updated
@@ -89,12 +79,6 @@ export const CocktailAddForm = () => {
     //Get available menus
     useEffect(()=>{
         getMenus()
-    },[])
-
-    //Get ingredients for the cocktail
-    useEffect(()=>{
-        getIngredients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return(
@@ -131,7 +115,7 @@ export const CocktailAddForm = () => {
                 </Form.Control>
                     </Col>
             </Form.Group>
-                {ingredients.map( ingredient => <IngredientCard  key={ingredient.id}
+                {cocktail.ingredients.map( ingredient => <IngredientCard  key={ingredient.id}
                                                                 ingredient={ingredient}
                                                                 saveIngredients={saveIngredients} />)}
             
