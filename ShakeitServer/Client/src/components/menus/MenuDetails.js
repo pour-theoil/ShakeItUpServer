@@ -30,7 +30,7 @@ export const MenuDetails = () => {
 
         }
     }
-    console.log(menu)
+
 
     useEffect(() => {
             getSetMenu()

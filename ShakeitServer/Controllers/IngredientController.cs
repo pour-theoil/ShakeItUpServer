@@ -78,6 +78,18 @@ namespace ShakeitServer.Controllers
             return Ok(ingredient);
         }
 
+        [HttpGet("RandomIngredient/{typeId}")]
+        public IActionResult GetRandom(int typeId)
+        {
+            var user = GetCurrentUserProfile();
+            var ingredient = _ingredientRepository.RandomIngredient(typeId, user.Id);
+            if (ingredient == null)
+            {
+                return NotFound();
+            }
+            return Ok(ingredient);
+        }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, Ingredient ingredient)
         {

@@ -8,19 +8,14 @@ const getToken = () => firebase.auth().currentUser.getIdToken();
 
 export const getRandomId = (typeId) => {
     return getToken().then((token) => {
-        return fetch(`${url}/ingredient/GetIngredientByType/${typeId}`, {
+        return fetch(`${url}/Ingredient/RandomIngredient/${typeId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then(resp => {
             if (resp.ok) {
-                resp.json()
-                    .then(array => {
-                        const randomIndex = Math.floor(Math.random() * array.length);
-                        const randomingredient = array[randomIndex];
-                        return randomingredient;
-                    })
+               return resp.json()
             } else {
                 throw new Error("An unknown error occurred while trying to get ingredients.");
             }
