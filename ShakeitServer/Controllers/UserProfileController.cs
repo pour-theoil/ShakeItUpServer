@@ -12,9 +12,13 @@ namespace ShakeitServer.Controllers
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
-        public UserProfileController(IUserProfileRepository userProfileRepository)
+        private readonly IIngredientRepository _ingredientRepository;
+        public UserProfileController(IUserProfileRepository userProfileRepository,
+                                     IIngredientRepository ingredientRepository)
         {
+            
             _userProfileRepository = userProfileRepository;
+            _ingredientRepository = ingredientRepository;
         }
 
         [HttpGet("{firebaseUserId}")]
@@ -45,6 +49,8 @@ namespace ShakeitServer.Controllers
             // All newly registered users start out as a "user" user type (i.e. they are not admins)
             userProfile.UserTypeId = UserType.USER_TYPE_ID;
             _userProfileRepository.Add(userProfile);
+            var ingredients = _ingredientRepository.GetAllDataBaseIngredients();
+            _ingredientRepository.BuildNewUserIngredients(ingredients, userProfile.Id);
             return CreatedAtAction(
                 nameof(GetByFirebaseUserId), new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);
         }

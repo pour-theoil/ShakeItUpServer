@@ -16,7 +16,9 @@ namespace ShakeitServer.Repositories
         public void UpdateIngredient(Ingredient ingredient);
         public void DeleteIngredient(int ingredientId);
         public List<Ingredient> GetIngredientsByType(int typeId, int userProfileId);
-        public List<Ingredient> SearchIngredients(string criterion);
+        public List<Ingredient> SearchIngredients(string criterion, int UserProfileId);
         public Ingredient RandomIngredient(int typeId, int userProfileId);
+        public List<Ingredient> GetAllDataBaseIngredients();
+        public void BuildNewUserIngredients(List<Ingredient> ingredients, int userProfileId);
     }
 }
