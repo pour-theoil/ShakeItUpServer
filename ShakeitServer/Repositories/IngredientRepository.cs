@@ -253,7 +253,7 @@ namespace ShakeitServer.Repositories
             }
         }
 
-        public List<Ingredient> SearchIngredients(string criterion)
+        public List<Ingredient> SearchIngredients(string criterion, int UserProfileId)
         {
 
             using (var conn = Connection)
@@ -261,14 +261,20 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select  i.id, i.name, i.abv, 
-                                                t.id as IngredientTypeId, t.name as IngredientName
-                                                from ingredient i 
-                                                left join ingredienttype t on i.IngredientTypeId = t.id
-                                                where i.name like @criterion";
+                    cmd.CommandText = @"select distinct i.id, i.name, i.abv, 
+                                        t.id as IngredientTypeId, t.name as IngredientName
+                                        from ingredient i 
+                                        left join ingredienttype t on i.IngredientTypeId = t.id
+                                        where i.id not in
+                                        (select i.id 
+                                        from Ingredient i left join UserIngredient ui on ui.IngredientId = i.Id 
+                                        where ui.UserProfileId = @UserProfileId)
+                                        and
+                                        i.name like @criterion";
 
 
                     DbUtils.AddParameter(cmd, "@criterion", $"%{criterion}%");
+                    DbUtils.AddParameter(cmd, "@UserProfileId", UserProfileId);
                     var reader = cmd.ExecuteReader();
                     var ingredients = new List<Ingredient>();
                     while (reader.Read())
