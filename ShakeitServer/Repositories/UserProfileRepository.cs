@@ -62,13 +62,15 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, Name, Email, UserTypeId)
+                    userProfile.DateCreated = DateTime.Now;
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, Name, Email, UserTypeId, DateCreated)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirebaseUserId, @Name, @Email, @UserTypeId)";
+                                        VALUES (@FirebaseUserId, @Name, @Email, @UserTypeId, @DateCreated)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@Name", userProfile.Name);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

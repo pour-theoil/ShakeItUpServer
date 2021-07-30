@@ -42,6 +42,61 @@ namespace ShakeitServer.Repositories
 
             }
         }
+        public List<Ingredient> GetAllDataBaseIngredients()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select * from ingredient";
+
+                    var reader = cmd.ExecuteReader();
+                    var ingredients = new List<Ingredient>();
+                    while (reader.Read())
+                    {
+                        var ingredient = new Ingredient()
+                        {
+
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            IngredientTypeId = DbUtils.GetInt(reader, "IngredientTypeId"),
+                            Abv = DbUtils.GetInt(reader, "Abv")
+                        };
+                        ingredients.Add(ingredient);
+                    }
+
+                    reader.Close();
+
+                    return ingredients;
+                }
+
+            }
+        }
+
+        public void BuildNewUserIngredients(List<Ingredient> ingredients, int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    var sql = "";
+
+                    for( var i = 0; i < ingredients.Count; i++)
+                    {
+                        sql += $@"
+                                    Insert into UserIngredient (userProfileId, ingredientId) 
+                                    values (@userProfileId, @ingedientId{i});";
+                        DbUtils.AddParameter(cmd, $"@ingedientId{i}", ingredients[i].Id);
+                    }
+                    DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+        }
 
         public List<Ingredient> GetIngredientsByType(int typeId, int userProfileId)
         {
