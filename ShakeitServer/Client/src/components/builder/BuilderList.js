@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom'
 import { BuilderCard } from "./BuilderCard";
 import { addCocktail } from '../../modules/CocktailManager'
-import { addCocktailIngredient } from '../../modules/BuilderManager'
 import { getAllTypes, getIngredientById } from '../../modules/IngredientManager'
 import { Container, Form, Button, Image, Row } from 'react-bootstrap'
 import shaker from './emptyshaker.png'
@@ -64,20 +63,9 @@ export const BuilderList = () => {
     
     // save the cocktail first, then create the many to many relationships with the drink
     const handleSaveCocktail = () => {
+        cocktail.Ingredients = ingredientArray
         addCocktail(cocktail)
-            .then(cocktailobj => {
-                
-                Promise.all(ingredientArray.map(ingredient => {
-                    const cocktailingredients = {
-                        cocktailId: cocktailobj.id,
-                        ingredientId: ingredient.id
-                    }
-                    return addCocktailIngredient(cocktailingredients)
-
-                })).then(() => setCocktail(cocktailobj))
-
-
-            })
+            .then(cocktailobj => setCocktail(cocktailobj))
     }
 
 
