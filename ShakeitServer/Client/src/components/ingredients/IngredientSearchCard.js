@@ -15,7 +15,7 @@ export const IngredientSearchCard = ({ colorArray, ingredient, setSaveIngredient
     }
     return (
         <>
-            <Card className="ingredient-card" bg={colorArray[ingredient.ingredientTypeId - 1]}>
+            <Card className="ingredient-card " bg={colorArray[ingredient.ingredientTypeId - 1]}>
                 <Row>
                     <Col xs={7}>
                         <Card.Title>{ingredient.name}</Card.Title>

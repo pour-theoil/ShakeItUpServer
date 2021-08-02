@@ -14,7 +14,7 @@ export const MenuEntry = ({colorArray, menu, timeconverter}) => {
         getCocktails(id).then(response => setMenuLength(response))
         
     }
-
+    console.log(menu)
     useEffect(()=> {
         getMenuCocktails(menu.id)
     },[menu])
@@ -22,7 +22,7 @@ export const MenuEntry = ({colorArray, menu, timeconverter}) => {
         <Card className="ingredient-card" bg={colorArray[parseInt(menu.seasonId)-1]} onClick={()=>{history.push(`/menus/${menu.id}`)}}>        
                 <Card.Title>{menu.name}</Card.Title>
                 
-                <Card.Subtitle>Started on: {timeconverter(menu.date)}</Card.Subtitle>
+                <Card.Subtitle>Started on: {timeconverter(menu.dateCreated)}</Card.Subtitle>
                 <Card.Subtitle>Drinks: {menulength}</Card.Subtitle>
                 
 

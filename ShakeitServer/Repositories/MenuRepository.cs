@@ -98,9 +98,9 @@ namespace ShakeitServer.Repositories
                 {
                     menu.DateCreated = DateTime.Now;
                     cmd.CommandText = @"
-                                        Insert into Menu (Name, SeasonId, Notes, UserProfileId)
+                                        Insert into Menu (Name, SeasonId, Notes, UserProfileId, datecreated)
                                         Output inserted.id
-                                        values (@name, @seasonId, @notes, @UserProfileId)";
+                                        values (@name, @seasonId, @notes, @UserProfileId, @datecreated)";
                    
                     DbUtils.AddParameter(cmd, "@name", menu.Name);
                     DbUtils.AddParameter(cmd, "@seasonId", menu.SeasonId);

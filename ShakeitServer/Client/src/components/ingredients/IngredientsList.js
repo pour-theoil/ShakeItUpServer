@@ -86,7 +86,7 @@ export const IngredientList = () => {
                     </Form.Control>
                     </Col>
                 </Form.Group>
-                <Container>
+                <Container className="cocktails-card">
 
                     {ingredients.map( ingredient => {
                                                
