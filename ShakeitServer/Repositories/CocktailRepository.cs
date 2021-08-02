@@ -22,6 +22,7 @@ namespace ShakeitServer.Repositories
 
                     var sql = @"Update Cocktail set
                                 Name = @name;
+                                where id = @cocktailId;
                                 ";
 
                     if (cocktail.MenuId != 0)

@@ -74,7 +74,7 @@ export const BuilderList = () => {
     };
 
     // array to add specific colors to individual cards
-    const colorArray = ['primary', 'secondary', 'warning', 'success', 'danger', 'info']
+    const colorArray = ['primary', 'secondary', 'warning', 'success', 'danger', 'info', 'light']
 
     useEffect(() => {
         if (cocktail.id) {

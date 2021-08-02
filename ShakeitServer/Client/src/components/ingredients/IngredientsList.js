@@ -47,8 +47,9 @@ export const IngredientList = () => {
             if (parseInt(selectedValue) === 0) {
                 setIngredients(allIngredients)
             } else {
+                console.log(allIngredients)
                 let filterIngredients = []
-                filterIngredients = allIngredients.filter(ingredient => parseInt(ingredient.typeId) === parseInt(selectedValue))   
+                filterIngredients = allIngredients.filter(ingredient => parseInt(ingredient.ingredientTypeId) === parseInt(selectedValue))   
                 setIngredients(filterIngredients)
             }
 
@@ -56,7 +57,7 @@ export const IngredientList = () => {
     }
 
 
-    const colorArray = ['primary', 'secondary', 'warning', 'success', 'danger', 'info']
+    const colorArray = ['primary', 'secondary', 'warning', 'success', 'danger', 'info', 'light']
 
     useEffect(() => {
         getIngredients()
