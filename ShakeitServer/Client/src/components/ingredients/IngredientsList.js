@@ -31,6 +31,7 @@ export const IngredientList = () => {
     } 
 
     const filterIngredients = (event) => {
+        event.preventDefault()
         getAllIngredients()
         .then(response =>{
             const allIngredients = [ ...response]
@@ -48,7 +49,7 @@ export const IngredientList = () => {
                 setIngredients(allIngredients)
             } else {
                 let filterIngredients = []
-                filterIngredients = allIngredients.filter(ingredient => parseInt(ingredient.typeId) === parseInt(selectedValue))   
+                filterIngredients = allIngredients.filter(ingredient => parseInt(ingredient.ingredientTypeId) === parseInt(selectedValue))   
                 setIngredients(filterIngredients)
             }
 

@@ -33,12 +33,15 @@ export const IngredientSearch = () => {
             setIngredients(ingredients)})
     } 
 
+    useEffect(()=>{
+        getIngredients()
+    },[])
 
     const colorArray = ['primary', 'secondary', 'warning', 'success', 'danger', 'info']
 
     return (
         <Container className="justified-content-center">
-            <h2 className="cocktailform-name"> Search</h2>
+            <h2 className="cocktailform-name">Pantry</h2>
             <Form>
                 <Form.Group>     
                     <Form.Control type="text"

@@ -9,7 +9,7 @@ export const IngredientSearchCard = ({ colorArray, ingredient }) => {
 
     const handleSaveUserIngredient = (click) => {
         click.preventDefault();
-        
+
         addUserIngredient(ingredient.id)
             .then(() => history.push('/ingredients'));
     }
@@ -22,11 +22,11 @@ export const IngredientSearchCard = ({ colorArray, ingredient }) => {
                         <Card.Title>{ingredient.name}</Card.Title>
                         <Card.Subtitle>({ingredient.ingredientType?.name})</Card.Subtitle>
                     </Col>
+                    <Button className="article-btn"
+                        onClick={handleSaveUserIngredient}>
+                        Save Entry
+                    </Button>
                 </Row>
-                <Button className="article-btn"
-                    onClick={handleSaveUserIngredient}>
-                    Save Entry
-                </Button>
             </Card>
         </>
     )

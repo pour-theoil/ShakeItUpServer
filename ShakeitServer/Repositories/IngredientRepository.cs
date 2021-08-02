@@ -42,61 +42,6 @@ namespace ShakeitServer.Repositories
 
             }
         }
-        public List<Ingredient> GetAllDataBaseIngredients()
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"select * from ingredient";
-
-                    var reader = cmd.ExecuteReader();
-                    var ingredients = new List<Ingredient>();
-                    while (reader.Read())
-                    {
-                        var ingredient = new Ingredient()
-                        {
-
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader, "Name"),
-                            IngredientTypeId = DbUtils.GetInt(reader, "IngredientTypeId"),
-                            Abv = DbUtils.GetInt(reader, "Abv")
-                        };
-                        ingredients.Add(ingredient);
-                    }
-
-                    reader.Close();
-
-                    return ingredients;
-                }
-
-            }
-        }
-
-        public void BuildNewUserIngredients(List<Ingredient> ingredients, int userProfileId)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sql = "";
-
-                    for( var i = 0; i < ingredients.Count; i++)
-                    {
-                        sql += $@"
-                                    Insert into UserIngredient (userProfileId, ingredientId) 
-                                    values (@userProfileId, @ingedientId{i});";
-                        DbUtils.AddParameter(cmd, $"@ingedientId{i}", ingredients[i].Id);
-                    }
-                    DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
-                    cmd.CommandText = sql;
-                    cmd.ExecuteNonQuery();
-                }
-
-            }
-        }
 
         public List<Ingredient> GetIngredientsByType(int typeId, int userProfileId)
         {
@@ -253,7 +198,7 @@ namespace ShakeitServer.Repositories
             }
         }
 
-        public List<Ingredient> SearchIngredients(string criterion, int UserProfileId)
+        public List<Ingredient> SearchIngredients(string criterion)
         {
 
             using (var conn = Connection)
@@ -261,20 +206,14 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select distinct i.id, i.name, i.abv, 
-                                        t.id as IngredientTypeId, t.name as IngredientName
-                                        from ingredient i 
-                                        left join ingredienttype t on i.IngredientTypeId = t.id
-                                        where i.id not in
-                                        (select i.id 
-                                        from Ingredient i left join UserIngredient ui on ui.IngredientId = i.Id 
-                                        where ui.UserProfileId = @UserProfileId)
-                                        and
-                                        i.name like @criterion";
+                    cmd.CommandText = @"select  i.id, i.name, i.abv, 
+                                                t.id as IngredientTypeId, t.name as IngredientName
+                                                from ingredient i 
+                                                left join ingredienttype t on i.IngredientTypeId = t.id
+                                                where i.name like @criterion";
 
 
                     DbUtils.AddParameter(cmd, "@criterion", $"%{criterion}%");
-                    DbUtils.AddParameter(cmd, "@UserProfileId", UserProfileId);
                     var reader = cmd.ExecuteReader();
                     var ingredients = new List<Ingredient>();
                     while (reader.Read())
