@@ -45,6 +45,7 @@ export const EditIngredientForm = () => {
     }
 
     const deleteSetIngredient = (id) => {
+        setIsLoading(true);
         deleteIngredient(id)
         .then(() => history.push('/ingredients'))
     }
@@ -116,7 +117,7 @@ export const EditIngredientForm = () => {
                 onClick={updateExistingIngredient}>
                 Update Ingredient
             </Button>
-            <Button variant="dark" className="article-btn" onClick={() => deleteSetIngredient(ingredient.id)} >Delete</Button>
+            <Button variant="dark" className="article-btn" disabled={isLoading} onClick={() => deleteSetIngredient(ingredient.id)} >Delete</Button>
             <Button className="article-btn"
                 variant="warning"
                 onClick={handleCancelSave}>

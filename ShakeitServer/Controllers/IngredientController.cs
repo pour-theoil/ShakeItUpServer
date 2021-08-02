@@ -119,6 +119,7 @@ namespace ShakeitServer.Controllers
         public IActionResult Search(string q)
         {
             var user = GetCurrentUserProfile();
+            
             return Ok(_ingredientRepository.SearchIngredients(q, user.Id));
         }
 

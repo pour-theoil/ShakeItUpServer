@@ -11,7 +11,7 @@ export const CocktailCard = ({ cocktail, removeCocktailFromMenu }) => {
         getAllIngredients(cocktail.id)
         .then(cocktail => {
             let ingredientsObj = cocktail.ingredients.map(ingredient => ingredient.name)
-            ingredientsObj.reverse()
+            // ingredientsObj.reverse()
             setIngredients(ingredientsObj)
         }
         )

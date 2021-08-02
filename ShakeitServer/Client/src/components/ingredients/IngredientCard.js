@@ -18,7 +18,7 @@ export const IngredientCard = ({colorArray, ingredient }) => {
 
     return(
         <>
-            <Card onClick={() => history.push(`/ingredients/Details/${ingredient.id}`)} className="ingredient-card" bg={colorArray[ingredient.ingredientTypeId-1]}>
+            <Card onClick={() => history.push(`/ingredients/Details/${ingredient.id}`)} className="ingredient-card " bg={colorArray[ingredient.ingredientTypeId-1]}>
                 <Row>
                     <Col xs={8}>
                         <Card.Title>{ingredient.name}</Card.Title>

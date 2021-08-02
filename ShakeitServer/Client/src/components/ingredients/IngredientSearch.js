@@ -128,8 +128,8 @@ export const IngredientSearch = () => {
                         <Form.Label column xs={3}>Filter</Form.Label>
                 </Form.Group>
             </Form>
-            <Container>
-
+            <Container className="cocktails-card">
+                 {ingredients.length !== 0? <></>: <h3>Looks like you have all of the currently approved ingredients, time to be creative</h3>}               
                 {ingredients.map(ingredient => {
 
 
