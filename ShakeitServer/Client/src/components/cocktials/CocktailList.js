@@ -24,6 +24,7 @@ export const CocktailList = () => {
 
     const deleteSetCocktail = (id) => {
         if (window.confirm("Are you sure you want to delete?")){
+            
             deleteCocktail(id)
             .then(() => getCocktails())
 

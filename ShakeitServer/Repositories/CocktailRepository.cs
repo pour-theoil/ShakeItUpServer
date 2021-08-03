@@ -61,9 +61,22 @@ namespace ShakeitServer.Repositories
          
 
 
-        public void DeleteCocktail(int cocktailId)
+        public void DeleteCocktail(int cocktailId, int userId)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+Delete CocktailIngredient where CocktailId = @id;
+Delete CocktailMenu where CocktailId = @id;
+Delete Cocktail where Id = @id and userProfileId = @userId;";
+                    DbUtils.AddParameter(cmd, "@userId", userId);
+                    DbUtils.AddParameter(cmd, "@id", cocktailId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
         public List<Cocktail> GetSeedCocktails(int id)
         {

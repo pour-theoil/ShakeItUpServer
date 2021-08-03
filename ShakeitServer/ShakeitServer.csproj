@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>ddddddddd</AssemblyName>
+    <UserSecretsId>ee274ca1-cb3a-4ecc-aa22-b6fa539175b8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
