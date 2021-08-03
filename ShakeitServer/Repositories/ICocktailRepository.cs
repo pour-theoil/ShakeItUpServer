@@ -12,7 +12,7 @@ namespace ShakeitServer.Repositories
         public Cocktail GetCocktailById(int id);
         public void AddCocktail(Cocktail cocktail);
         public void UpdateCocktail(Cocktail cocktail);
-        public void DeleteCocktail(int cocktailId);
+        public void DeleteCocktail(int cocktailId, int userId);
         public int NumberCocktailsOnMenu(int menuId);
         public Cocktail CocktailIngredients(int id);
         public int NumIngredientInCocktails(int ingredientId);

@@ -69,6 +69,15 @@ namespace ShakeitServer.Controllers
             return Ok(cocktail);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var user = GetCurrentUserProfile();
+            _cocktailRepository.DeleteCocktail(id, user.Id);
+            return NoContent();
+        }
+
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
