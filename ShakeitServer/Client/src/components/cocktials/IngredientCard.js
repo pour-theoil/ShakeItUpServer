@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, Row, Col, InputGroup  } from 'react-bootstrap'
 
 
-export const IngredientCard = ({ ingredient, saveIngredients }) => {
+export const IngredientCard = ({ ingredient, cocktail, setCocktail, i }) => {
     const [manyToMany, setManyToMany] = useState({
         id: ingredient.id,
         cocktailId: ingredient.cocktailId,
@@ -12,16 +12,20 @@ export const IngredientCard = ({ ingredient, saveIngredients }) => {
     //Handle changes for the cocktail state
 
     const handleInputChange = (event) => {
-        const newPour = { ...manyToMany }
+        const newPour = { ...ingredient }
         let selectedValue = event.target.value
-        // if (event.target.id.includes("Id")) {
+        console.log(event.target.id)
+        // if (event.target.id.includes("pour")) {
         // 	selectedValue = parseInt(selectedValue)
         // }
-
+    
         newPour[event.target.id] = selectedValue
-        setManyToMany(newPour)
+        cocktail.ingredients[i].pour = selectedValue
+        setCocktail(cocktail)
     }
 
+    
+    
     return (
         <Form.Group as={Row}>
             <Form.Label column xs={6} className="justify-content-end">{ingredient.name}:</Form.Label>
@@ -29,11 +33,12 @@ export const IngredientCard = ({ ingredient, saveIngredients }) => {
                 <InputGroup className="mb-3">
                 <Form.Control type="number" step={.25}
                     id="pour"
-                    className="pourvalue"
+                    className="pour"
                     onChange={handleInputChange}
                     required
                     placeholder="pour"
                     defaultValue={ingredient.pour}
+                    
                 />
                 <InputGroup.Append>
                     <InputGroup.Text>oz</InputGroup.Text>

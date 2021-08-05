@@ -49,7 +49,7 @@ namespace ShakeitServer.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select * from ingredient";
+                    cmd.CommandText = @"select top 50 * from ingredient";
 
                     var reader = cmd.ExecuteReader();
                     var ingredients = new List<Ingredient>();

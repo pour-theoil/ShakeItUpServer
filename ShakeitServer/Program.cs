@@ -16,11 +16,24 @@ namespace ShakeitServer
             CreateHostBuilder(args).Build().Run();
         }
 
+
+        //Local Development
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        //Hosting
+        //    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((context, builder) =>
+        //{
+        //    builder.AddSystemsManager("/shakeitupapi");
+        //}).ConfigureWebHostDefaults(webBuilder =>
+        //{
+        //    webBuilder.UseStartup<Startup>();
+        //});
+
     }
 }

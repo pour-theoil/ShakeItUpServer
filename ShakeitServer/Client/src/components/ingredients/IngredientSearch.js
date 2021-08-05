@@ -96,7 +96,7 @@ export const IngredientSearch = () => {
 
     return (
         <Container className="justified-content-center">
-            <h2 className="cocktailform-name"> Search</h2>
+            <h2 className="cocktailform-name"> Search Pantry</h2>
             <Form>
                 <Form.Group as={Row}>
                     <Col xs={9}>

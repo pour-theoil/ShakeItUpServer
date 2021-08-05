@@ -57,7 +57,7 @@ namespace ShakeitServer.Controllers
 
             //Build ingredient Pantry with current ingredients
             var ingredients = _ingredientRepository.GetAllDataBaseIngredients();
-
+            
             //Add Sample Cocktails and menu
             _ingredientRepository.BuildNewUserIngredients(ingredients, userProfile.Id);
             var cocktails = _cocktailRepository.GetSeedCocktails(11);

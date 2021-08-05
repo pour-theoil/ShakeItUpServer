@@ -41,6 +41,7 @@ export const SingleCocktailEditForm = () => {
         setCocktail(newCocktail)
     }
 
+    let i = -1;
 
 
     //save the menu and the cocktail states after they have been updated
@@ -48,6 +49,7 @@ export const SingleCocktailEditForm = () => {
         click.preventDefault()
         setIsLoading(true)
         setSaveIngredients(true)
+        debugger
         updateCocktail(cocktail)
             .then(() => history.push(`/cocktails`))
     }
@@ -100,9 +102,16 @@ export const SingleCocktailEditForm = () => {
                         </Form.Control>
                     </Col>
                 </Form.Group>
-                {cocktail.ingredients?.map(ingredient => <IngredientCard key={ingredient?.id}
+                {
+                cocktail.ingredients?.map(ingredient => {
+                    i++;    
+                    return <IngredientCard key={ingredient?.id}
                     ingredient={ingredient}
-                    saveIngredients={saveIngredients} />)}
+                    setCocktail={setCocktail}
+                    cocktail={cocktail}
+                    i={i}
+                     />
+                })}
 
 
 
