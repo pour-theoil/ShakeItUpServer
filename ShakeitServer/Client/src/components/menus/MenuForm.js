@@ -3,15 +3,15 @@ import { useHistory } from 'react-router-dom'
 import { addMenu, getAllSeasons } from '../../modules/MenuManager'
 import { Form, Button, Container } from "react-bootstrap";
 
-export const MenuEntry = () => {
+export const MenuForm = () => {
     const [menu, setMenu] = useState({
         name: "",
         seasonId: 0,
         date: Date.now()
     })
-
+    debugger
     const [seasons, setSeasons] = useState([]) 
-    
+    console.log("I am Here")
     const getSeasons = () => {
         getAllSeasons()
         .then(type => setSeasons(type))

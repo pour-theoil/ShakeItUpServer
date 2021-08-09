@@ -16,10 +16,13 @@ namespace ShakeitServer.Controllers
     {
         private IMenuRepository _menuRepository;
         private IUserProfileRepository _userProfileRepository;
+        private ISeasonRepository _seasonRepository;
 
         public MenuController(  IMenuRepository menuRepository, 
-                                IUserProfileRepository userProfileRepository)
+                                IUserProfileRepository userProfileRepository,
+                                ISeasonRepository seasonRepository)
         {
+            _seasonRepository = seasonRepository;
             _menuRepository = menuRepository;
             _userProfileRepository = userProfileRepository;
         }
@@ -38,6 +41,12 @@ namespace ShakeitServer.Controllers
             menu.UserProfileId = firebaseUserProfile.Id;
             _menuRepository.AddMenu(menu);
             return CreatedAtAction("Get", new { id = menu.Id }, menu);
+        }
+
+        [HttpGet("seasons")]
+        public IActionResult GetSeasons()
+        {
+            return Ok(_seasonRepository.GetSeasons());
         }
 
         [HttpDelete("{id}")]

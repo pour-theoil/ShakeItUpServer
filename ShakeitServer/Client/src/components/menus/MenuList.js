@@ -8,7 +8,7 @@ import './Menu.css'
 export const MenuList = () => {
     const [menus, setMenus] = useState([])
     const history = useHistory()
-
+    console.log(history)
     const getMenus = () => {
         getAllMenus()
         .then(menus => {
@@ -43,7 +43,7 @@ export const MenuList = () => {
                 <Row>
                     <Button className="fixed-button"
                             variant="primary"
-                            onClick={() => {history.push('/menus/create')}}> + Menu</Button>
+                            onClick={() => {history.push("/menus/create")}}> + Menu</Button>
                 </Row>
             </Container>
         </>

@@ -49,7 +49,6 @@ export const SingleCocktailEditForm = () => {
         click.preventDefault()
         setIsLoading(true)
         setSaveIngredients(true)
-        debugger
         updateCocktail(cocktail)
             .then(() => history.push(`/cocktails`))
     }

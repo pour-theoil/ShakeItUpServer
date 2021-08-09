@@ -7,7 +7,7 @@ import { IngredientSearch } from './ingredients/IngredientSearch'
 import { BuilderList } from './builder/BuilderList'
 import { MenuList } from './menus/MenuList'
 import { SingleCocktailEditForm } from './cocktials/CocktailEdit'
-import { MenuEntry } from './menus/MenuForm'
+import { MenuForm } from './menus/MenuForm'
 import { MenuDetails } from './menus/MenuDetails'
 import { CocktailAddForm } from './builder/CocktailForm'
 import { CocktailList } from './cocktials/CocktailList'
@@ -33,12 +33,12 @@ export default function ApplicationViews({ isLoggedIn }) {
 
                 </Route>
 
-                <Route exact path="/home/:selectIngredient">
+                <Route exact path="/home/:selectIngredient(\d+)">
                     {isLoggedIn ? <BuilderList /> : <Redirect to="/login" />}
 
                 </Route>
 
-                <Route path="/cocktails/:cocktailId/add">
+                <Route path="/cocktails/:cocktailId(\d+)/add">
                     {isLoggedIn ? <CocktailAddForm /> : <Redirect to="/login" />}
 
                 </Route>
@@ -57,12 +57,12 @@ export default function ApplicationViews({ isLoggedIn }) {
                     {isLoggedIn ? <CocktailList /> : <Redirect to="/login" />}
                 </Route>
 
-                <Route path="/ingredients/edit/:ingredientId" exact>
+                <Route path="/ingredients/edit/:ingredientId(\d+)" exact>
                     {isLoggedIn ? <EditIngredientForm /> : <Redirect to="/login" />}
 
                 </Route>
 
-                <Route path="/ingredients/details/:ingredientId" exact>
+                <Route path="/ingredients/details/:ingredientId(\d+)" exact>
                     {isLoggedIn ? <IngredientDetails /> : <Redirect to="/login" />}
 
                 </Route>
@@ -82,13 +82,13 @@ export default function ApplicationViews({ isLoggedIn }) {
 
                 </Route>
 
-                <Route exact path="/menus/:menuId">
+                <Route exact path="/menus/:menuId(\d+)">
                     {isLoggedIn ? <MenuDetails /> : <Redirect to="/login" />}
 
                 </Route>
 
-                <Route path='/menus/create'>
-                    {isLoggedIn ? <MenuEntry /> : <Redirect to="/login" />}
+                <Route exact path="/menus/create">
+                    {isLoggedIn ? <MenuForm /> : <Redirect to="/login" />}
 
                 </Route>
 
