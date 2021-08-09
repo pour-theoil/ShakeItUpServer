@@ -7,7 +7,7 @@ export const CocktailCard = ({ cocktail, deleteSetCocktail, colorArray }) => {
     const history = useHistory()
     //create a state variable for the ingredients associated with the specific cocktail. Then join them into a string.
     let ingredientsObj = cocktail.ingredients.map(ingredient => ingredient.name)
-    // ingredientsObj.reverse()
+    ingredientsObj.reverse()
 
     return (
         <>

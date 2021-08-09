@@ -12,7 +12,7 @@ export const CocktailAddForm = () => {
     const { cocktailId } = useParams()
     const history = useHistory()
     const [saveIngredients, setSaveIngredients] = useState(false)
-
+    const [ingredients, setIngredients] = useState()
     //set state of the cocktail object
     const [cocktail, setCocktail] = useState({
         id: cocktailId,
@@ -22,6 +22,7 @@ export const CocktailAddForm = () => {
         getCocktail(cocktailId)
             .then(response => {
                 setCocktail(response)
+                setIngredients(response.ingredients)
             })
 
     }
@@ -38,10 +39,11 @@ export const CocktailAddForm = () => {
         const newCocktail = { ...cocktail }
         let selectedValue = event.target.value
         newCocktail[event.target.id] = selectedValue
+
         setCocktail(newCocktail)
     }
 
-
+    let i = -1;
 
     //save the menu and the cocktail states after they have been updated
     const handleSaveEvent = (click) => {
@@ -101,9 +103,16 @@ export const CocktailAddForm = () => {
                         </Form.Control>
                     </Col>
                 </Form.Group>
-                {cocktail.ingredients?.map(ingredient => <IngredientCard key={ingredient?.id}
+                {
+                cocktail.ingredients?.map(ingredient => {
+                    i++;    
+                    return <IngredientCard key={ingredient?.id}
                     ingredient={ingredient}
-                    saveIngredients={saveIngredients} />)}
+                    setCocktail={setCocktail}
+                    cocktail={cocktail}
+                    i={i}
+                     />
+                })}
             </Form>
             <Button className="article-btn" disabled={isLoading}
                 onClick={handleSaveEvent}>

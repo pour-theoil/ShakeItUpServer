@@ -27,7 +27,10 @@ namespace ShakeitServer.Repositories
 
                     if (cocktail.MenuId != 0)
                     {
-                        sql += @"Insert into CocktailMenu (menuId, cocktailId)
+                        sql += @"
+                                Delete from CocktailMenu where cocktailId =  @cocktailId;
+
+                                Insert into CocktailMenu (menuId, cocktailId)
                                 values (@menuId, @cocktailId);
                                 ";
                     }

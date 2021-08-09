@@ -54,7 +54,7 @@ export const getMenuById = (id) => {
 
 export const updateMenu = (obj) => {
     return getToken().then((token) => {
-        return fetch(`${url}/menus/${obj.id}`, {
+        return fetch(`${url}/menu/${obj.id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@ export const getCocktails = (id) => {
 
 export const getAllSeasons = () => {
     return getToken().then((token) => {
-        return fetch(`${url}/seasons`, {
+        return fetch(`${url}/menu/seasons`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`

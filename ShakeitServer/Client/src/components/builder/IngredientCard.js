@@ -10,14 +10,14 @@ export const IngredientCard = ({ ingredient, saveIngredients }) => {
         pour: ingredient.pour
     })
     //Handle changes for the cocktail state
-
+    console.log(ingredient)
     const handleInputChange = (event) => {
         const newPour = { ...manyToMany }
         let selectedValue = event.target.value
         // if (event.target.id.includes("Id")) {
         // 	selectedValue = parseInt(selectedValue)
         // }
-
+        
         newPour[event.target.id] = selectedValue
         setManyToMany(newPour)
     }
@@ -28,7 +28,7 @@ export const IngredientCard = ({ ingredient, saveIngredients }) => {
             <Col xs={5}>
                 <InputGroup className="mb-3">
                 <Form.Control type="number" step={.25}
-                    id="pour"
+                    id="Pour"
                     className="pourvalue"
                     onChange={handleInputChange}
                     required
