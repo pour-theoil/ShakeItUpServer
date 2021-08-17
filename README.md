@@ -20,6 +20,7 @@ https://user-images.githubusercontent.com/75812618/129771118-4f7667fd-23ae-4524-
 
 ## ERD 
 Ingredients Many-to-Many
+
 ![Ingredients](https://user-images.githubusercontent.com/75812618/129767929-2599699e-734d-4a49-9ebe-0f1e621b8e37.jpg)
 
 
