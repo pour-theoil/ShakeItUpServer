@@ -43,11 +43,9 @@ export const IngredientList = () => {
               })
            
             let selectedValue = event.target.value
-            console.log(selectedValue)
             if (parseInt(selectedValue) === 0) {
                 setIngredients(allIngredients)
             } else {
-                console.log(allIngredients)
                 let filterIngredients = []
                 filterIngredients = allIngredients.filter(ingredient => parseInt(ingredient.ingredientTypeId) === parseInt(selectedValue))   
                 setIngredients(filterIngredients)

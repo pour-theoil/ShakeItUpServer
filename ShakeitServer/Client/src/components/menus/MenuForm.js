@@ -9,9 +9,9 @@ export const MenuForm = () => {
         seasonId: 0,
         date: Date.now()
     })
-    debugger
+   
     const [seasons, setSeasons] = useState([]) 
-    console.log("I am Here")
+   
     const getSeasons = () => {
         getAllSeasons()
         .then(type => setSeasons(type))

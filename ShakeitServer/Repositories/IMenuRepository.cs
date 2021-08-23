@@ -13,5 +13,6 @@ namespace ShakeitServer.Repositories
         public void AddMenu(Menu menu);
         public void UpdateMenu(Menu menu);
         public void DeleteMenu(int menuId);
+        public void RemoveCocktailFromMenu(int cocktailId, int menuId);
     }
 }

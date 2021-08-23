@@ -16,10 +16,10 @@ export const MenuDetails = () => {
         .then(menuObj => setMenu(menuObj))
     }
 
-    const removeCocktailFromMenu = (id) => {
+    const removeCocktailFromMenu = (cocktailId) => {
         if (window.confirm("Are you sure you want to remove this cocktial?")){
-            deleteMenuCocktail(id)
-            // .then(() => getMenuCocktails())
+            deleteMenuCocktail(menuId, cocktailId)
+            .then(() => getSetMenu())
         }
     }
       

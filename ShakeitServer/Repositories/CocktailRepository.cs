@@ -81,6 +81,8 @@ Delete Cocktail where Id = @id and userProfileId = @userId;";
                 }
             }
         }
+
+
         public List<Cocktail> GetSeedCocktails(int id)
         {
 
@@ -201,15 +203,18 @@ Delete Cocktail where Id = @id and userProfileId = @userId;";
             throw new NotImplementedException();
         }
 
-        public int NumIngredientInCocktails(int ingredientId)
+        public int NumIngredientInCocktails(int ingredientId, int userId)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select count(id) as NumCocktails from cocktailIngredient where ingredientId = @ingredientId;";
+                    cmd.CommandText = @"select count(ci.id) as NumCocktails from cocktailIngredient ci
+                                        join cocktail c on c.id = ci.cocktailId
+                                        where ci.ingredientId = @ingredientId and c.userProfileId = @userId;";
                     DbUtils.AddParameter(cmd, "@ingredientId", ingredientId);
+                    DbUtils.AddParameter(cmd, "@userId", userId);
 
                     var reader = cmd.ExecuteReader();
                     var cocktails = 0;

@@ -11,7 +11,7 @@ export const IngredientCard = ({colorArray, ingredient }) => {
         getIngredientCocktails(id)
         .then(response => setNumDrinks(response))
     }
-    console.log(ingredient.ingredientType, colorArray[ingredient.ingredientTypeId-1])
+    
     useEffect(() => {
         numberOfDrinks(ingredient.id)
     },[ingredient])

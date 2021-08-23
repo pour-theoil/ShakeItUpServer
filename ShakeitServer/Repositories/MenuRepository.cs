@@ -151,6 +151,23 @@ namespace ShakeitServer.Repositories
             }
         }
 
+        public void RemoveCocktailFromMenu(int menuId, int cocktailId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Delete CocktailMenu where CocktailId = @cocktailId and menuId = @menuId;
+                        ";
+                    DbUtils.AddParameter(cmd, "@cocktailId", cocktailId);
+                    DbUtils.AddParameter(cmd, "@menuId", menuId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            
+        }
+
 
         private Menu NewMenuFromDb(SqlDataReader reader)
         {
