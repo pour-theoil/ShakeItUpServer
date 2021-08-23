@@ -8,7 +8,7 @@ import './Menu.css'
 export const MenuList = () => {
     const [menus, setMenus] = useState([])
     const history = useHistory()
-    console.log(history)
+ 
     const getMenus = () => {
         getAllMenus()
         .then(menus => {

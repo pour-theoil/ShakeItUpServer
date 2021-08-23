@@ -14,7 +14,7 @@ export const MenuEntry = ({colorArray, menu, timeconverter}) => {
         getCocktails(id).then(response => setMenuLength(response))
         
     }
-    console.log(menu)
+    
     useEffect(()=> {
         getMenuCocktails(menu.id)
     },[menu])

@@ -56,6 +56,13 @@ namespace ShakeitServer.Controllers
             return NoContent();
         }
 
+        [HttpDelete("removecocktail/{menuId}/{cocktailId}")]
+        public IActionResult RemoveCocktailFromMenu(int menuId, int cocktailId)
+        {
+            _menuRepository.RemoveCocktailFromMenu(menuId, cocktailId);
+            return NoContent();
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

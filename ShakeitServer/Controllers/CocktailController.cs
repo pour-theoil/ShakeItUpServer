@@ -34,7 +34,8 @@ namespace ShakeitServer.Controllers
         [HttpGet("numIngredients/{id}")]
         public IActionResult GetNumIngredients(int id)
         {
-            return Ok(_cocktailRepository.NumIngredientInCocktails(id));
+            var user = GetCurrentUserProfile();
+            return Ok(_cocktailRepository.NumIngredientInCocktails(id, user.Id));
         }
 
         [HttpPost]

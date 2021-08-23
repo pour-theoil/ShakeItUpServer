@@ -128,9 +128,9 @@ export const getAllSeasons = () => {
     });
 };
 
-export const deleteMenuCocktail = (id) => {
+export const deleteMenuCocktail = (menuId, cocktailId) => {
     return getToken().then((token) => {
-        return fetch(`${url}/cocktailmenu/${id}`, {
+        return fetch(`${url}/menu/removecocktail/${menuId}/${cocktailId}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
