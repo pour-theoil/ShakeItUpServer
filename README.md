@@ -1,7 +1,7 @@
 # ShakeItUpFullStack
 ##Background
 
-This full stack application is for bartenders and cocktail lovers to help them boost their creativity and come up with new cocktails. With a given set of ingredient types they can shake up the ingredients until their creativity is sparked.
+This full stack application is for bartenders and cocktail lovers to help them boost their creativity and come up with new cocktails. With a given set of ingredient types they can shake up the ingredients until their creativity is satisfied
 
 ## Technology
 * React
